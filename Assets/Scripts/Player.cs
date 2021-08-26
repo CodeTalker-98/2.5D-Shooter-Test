@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private float _cycleTime = 0.0f;                            //Cycle time for weapon
     private Vector3 _velocity;                                  //Velocity for player
     [SerializeField] private GameObject _bullet;                //Bullet Player Shoots
-    //!!clamp transform.pos to 5.5,-3.5!!
+
     private void Update()
     {
         PlayerMovement();                                       // Move player
@@ -20,9 +20,13 @@ public class Player : MonoBehaviour
     {
         float hInput = Input.GetAxisRaw("Horizontal");          //Get input and use it to set direction
         float vInput = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(hInput, vInput, 0.0f);
+        Vector3 direction = new Vector3(hInput, vInput, 0.0f).normalized;
+
+        float xClamp = Mathf.Clamp(transform.position.x, -8.75f, 8.75f);
+        float yClamp = Mathf.Clamp(transform.position.y, -3.5f, 5.5f);
 
         _velocity = direction * _spd;                           //Create velocity
+        transform.position = new Vector3(xClamp, yClamp, 0.0f);
         transform.Translate(_velocity * Time.deltaTime);        //Move player
     }
 

@@ -29,4 +29,17 @@ public class Enemy : MonoBehaviour
     {
         _health -= damage;                          //Subtract health from enemy based on damage taken
     }
+
+    private void OnTriggerEnter(Collider other)    //Checks for trigger collision
+    {
+        if (other.tag == "Remover")                //If boundary, remove self
+        {
+            Destroy(this.gameObject);
+        }
+        else if (other.tag == "Bullet")            //If bullet destroy bullet  and self
+        {
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);       //Add time later
+        }
+    }
 }

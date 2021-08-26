@@ -12,11 +12,8 @@ public class SpawnManager : MonoBehaviour
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
-        _spawnTimer = new WaitForSeconds(1.0f);
-    }
+        _spawnTimer = new WaitForSeconds(2.5f);
 
-    private void Update()
-    {
         if (_player != null)
         {
             StartCoroutine(SpawnEnemies());
@@ -31,7 +28,11 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-       yield return _spawnTimer;
-        Instantiate(_enemies[0], _spawnPos, Quaternion.identity);
+        while (_player != null)
+        {
+            yield return _spawnTimer;
+            GenerateSpawnPos();
+            Instantiate(_enemies[0], _spawnPos, Quaternion.identity);
+        }
     }
 }

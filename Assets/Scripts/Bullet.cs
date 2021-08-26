@@ -16,4 +16,12 @@ public class Bullet : MonoBehaviour
         Vector3 bulletVelocity = Vector3.right * _spd;          //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Boundary")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
