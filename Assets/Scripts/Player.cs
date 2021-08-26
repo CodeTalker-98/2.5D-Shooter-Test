@@ -22,12 +22,12 @@ public class Player : MonoBehaviour
         float vInput = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(hInput, vInput, 0.0f).normalized;
 
-        float xClamp = Mathf.Clamp(transform.position.x, -8.75f, 8.75f);
-        float yClamp = Mathf.Clamp(transform.position.y, -3.5f, 5.5f);
-
         _velocity = direction * _spd;                           //Create velocity
-        transform.position = new Vector3(xClamp, yClamp, 0.0f);
         transform.Translate(_velocity * Time.deltaTime);        //Move player
+
+        float xClamp = Mathf.Clamp(transform.position.x, -8.75f, 8.75f);    //Resrict x and y movement
+        float yClamp = Mathf.Clamp(transform.position.y, -3.5f, 5.5f);
+        transform.position = new Vector3(xClamp, yClamp, 0.0f);             //Ensure position does not exceed restrictions
     }
 
     void PlayerShoot()

@@ -41,5 +41,10 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(this.gameObject);       //Add time later
         }
+        else if (other.tag == "Player")
+        {
+            //Call damage function
+            Destroy(this.gameObject);
+        }
     }
 }
