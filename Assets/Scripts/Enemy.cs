@@ -23,20 +23,28 @@ public class Enemy : MonoBehaviour
     {
         Vector3 enemyVelocity = Vector3.left * _spd;                //Sets direction for enemy to move
         transform.Translate(enemyVelocity * Time.deltaTime);        //moves enemy
+
+        if (transform.position.x < -12.5f)                          //Removes enemy if offscreen
+        {
+            Destroy(this.gameObject);
+        }
     }
 
-    public void Damage(int damage)
+    public void EnemyDamage(int damage)
     {
-        _health -= damage;                          //Subtract health from enemy based on damage taken
+        if (_health > 0)                                //If _health > 0
+        {
+            _health -= damage;                          //Subtract health from enemy based on damage taken
+        }
+        else
+        {
+            Destroy(this.gameObject);                   //Otherwise destroy object
+        }
     }
 
     private void OnTriggerEnter(Collider other)    //Checks for trigger collision
     {
-        if (other.tag == "Remover")                //If boundary, remove self
-        {
-            Destroy(this.gameObject);
-        }
-        else if (other.tag == "Bullet")            //If bullet destroy bullet  and self
+         if (other.tag == "Bullet")            //If bullet destroy bullet  and self
         {
             Destroy(other.gameObject);
             Destroy(this.gameObject);       //Add time later

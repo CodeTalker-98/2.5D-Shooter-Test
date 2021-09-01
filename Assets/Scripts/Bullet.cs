@@ -9,19 +9,16 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         BulletMovement();                                       // Call Bullet Method
+
+        if (transform.position.x > 10.75f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void BulletMovement()
     {
         Vector3 bulletVelocity = Vector3.right * _spd;          //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Boundary")
-        {
-            Destroy(this.gameObject);
-        }
     }
 }
