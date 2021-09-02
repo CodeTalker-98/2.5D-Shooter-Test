@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
     private Vector3 _spawnPos;
     private Player _player;
     private WaitForSeconds _spawnTimer;
+    [SerializeField] private bool _canSpawn = false;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class SpawnManager : MonoBehaviour
 
         if (_player != null)
         {
+            _canSpawn = true;
             StartCoroutine(SpawnEnemies());
         }
     }
@@ -28,11 +30,16 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        while (_player != null)
+        while (_canSpawn)
         {
             yield return _spawnTimer;
             GenerateSpawnPos();
             Instantiate(_enemies[0], _spawnPos, Quaternion.identity);
         }
+    }
+
+    public void OnPlayerDeath()
+    {
+        _canSpawn = false;
     }
 }

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _spd = 1.0f;     //Sets nemy's movement speed
-    [SerializeField] private int _health = 1;       //Sets enemy health
+    [SerializeField] private float _spd = 1.0f;         //Sets nemy's movement speed
+    [SerializeField] private int _health = 1;           //Sets enemy health
+    [SerializeField] private int _scoreValue = 100;     //Generic score value for enemy
+    [SerializeField] private int _damageOutput = 1;     //Sets damage enemy can deal
+
 
     private void Update()
     {
-        if (_health > 0)                            //Checks health before doing anything
+        if (_health > 0)                                //Checks health before doing anything
         {
-            EnemyMovement();                        //Calls Movement if it is alive
+            EnemyMovement();                            //Calls Movement if it is alive
         }
         else
         {
-            Destroy(this.gameObject);               //Destroys object if _health <= 0 
+            Destroy(this.gameObject);                   //Destroys object if _health <= 0 
         }
     }
 
@@ -44,15 +47,23 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)    //Checks for trigger collision
     {
-         if (other.tag == "Bullet")            //If bullet destroy bullet  and self
+        Player player = GameObject.Find("Player").GetComponent<Player>();
+
+        if(player != null)
         {
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);       //Add time later
-        }
-        else if (other.tag == "Player")
-        {
-            //Call damage function
-            Destroy(this.gameObject);
-        }
+            if (other.tag == "Bullet")                //If bullet destroy bullet  and self
+            {
+                Destroy(other.gameObject);
+                player.UpdateScore(_scoreValue);
+                //Animate Damage
+                Destroy(this.gameObject);              //Add time later
+            }
+            else if (other.tag == "Player")
+            {
+                player.DamagePlayer(_damageOutput);   //Damage Player
+                //Animate Damage
+                Destroy(this.gameObject);              //Destroy self
+            }
+        }            
     }
 }

@@ -9,6 +9,19 @@ public class Player : MonoBehaviour
     private float _cycleTime = 0.0f;                            //Cycle time for weapon
     private Vector3 _velocity;                                  //Velocity for player
     [SerializeField] private GameObject _bullet;                //Bullet Player Shoots
+    [SerializeField] private int _currentHealth = 1;            //Current health value
+    private int _score = 0;                                     //Current score
+    private UIManager _uiManager;                               //Comm with UI Manager
+
+    private void Start()
+    {
+        _uiManager = GameObject.Find("UI").GetComponentInChildren<UIManager>();
+
+        if (_uiManager != null)
+        {
+            _uiManager.UpdateHealthBar(_currentHealth);
+        }
+    }
 
     private void Update()
     {
@@ -48,5 +61,28 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+    public void DamagePlayer(int damageAmount)
+    {
+        _currentHealth -= damageAmount;
+        _uiManager.UpdateHealthBar(_currentHealth);
+
+        if (_currentHealth < 1)
+        {
+            //Animate Death
+            SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void UpdateScore(int scoreValue)
+    {
+        _score += scoreValue;
+    }
+
+    public int SendPlayerScore()
+    {
+        return _score;
     }
 }
