@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemies:
   - {fileID: 7868493971908158524, guid: 55b9c27dd7dc3484b969b94c6c54192a, type: 3}
+  _canSpawn: 0
 --- !u!1 &253807816
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,15 +64,18 @@ public class Player : MonoBehaviour
     }
     public void DamagePlayer(int damageAmount)
     {
-        _currentHealth -= damageAmount;
-        _uiManager.UpdateHealthBar(_currentHealth);
+        _currentHealth -= damageAmount;                                                                     //Deals enemy specific damage
+        _uiManager.UpdateHealthBar(_currentHealth);                                                         //Updates the Health bar on the HUD
 
-        if (_currentHealth < 1)
+        if (_currentHealth < 1)                                                                             //If we are dead ( health < 1)
         {
             //Animate Death
-            SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-            spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
+            SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();       //Find spawn manager communicate with it
+            if (spawnManager != null)                                                                       //If spawn manager exists
+            {
+                spawnManager.OnPlayerDeath();                                                               //Call method to stop spawning
+                Destroy(this.gameObject);                                                                   //Destroy ourselves
+            }
         }
     }
 
@@ -84,5 +87,15 @@ public class Player : MonoBehaviour
     public int SendPlayerScore()
     {
         return _score;
+    }
+
+    private void OnTriggerEnter(Collider other)                         //Use to check for trigger collisions
+    {
+        if (other.tag == "Powerup")                                     //If we collide with powerup
+        {
+            _currentHealth ++;                                          // Add 1 to health
+            Debug.Log("Current Health: " + _currentHealth);             //Display message to show it works
+            Destroy(other.gameObject);                                  //Destroy the powerup
+        }
     }
 }
