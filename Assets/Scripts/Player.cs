@@ -93,7 +93,11 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Powerup")                                     //If we collide with powerup
         {
-            _currentHealth ++;                                          // Add 1 to health
+            if(_currentHealth < 5)
+            {
+                _currentHealth++;                                       // Add 1 to health if current health is less than 5
+            }
+            _uiManager.UpdateHealthBar(_currentHealth);                 //Update healthbar with current health
             Debug.Log("Current Health: " + _currentHealth);             //Display message to show it works
             Destroy(other.gameObject);                                  //Destroy the powerup
         }
