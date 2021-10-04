@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject _startPanel;
     [SerializeField] private GameObject _optionsPanel;
+    //_playSFX Bool
+    //_playMusic Bool
+    //Brightness slider
+    //Sound Slider
     private int _highScore;
     private bool _hardMode;
 
@@ -28,9 +32,14 @@ public class GameManager : MonoBehaviour
         _instance = this;
     }
 
+    public void SayHi()
+    {
+        Debug.Log("Hi! I'm the Game Manager");
+    }
+
     public void StartGame()
     {
-        //Load scene async
+        SceneManager.LoadScene(2);
     }
 
     public void OptionsMenu()
