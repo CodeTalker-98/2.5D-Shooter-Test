@@ -21,8 +21,6 @@ public class Player : MonoBehaviour
         {
             _uiManager.UpdateHealthBar(_currentHealth);
         }
-
-        GameManager.Instance.SayHi();
     }
 
     private void Update()

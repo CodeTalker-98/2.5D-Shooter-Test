@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject _startPanel;
     [SerializeField] private GameObject _optionsPanel;
-    //_playSFX Bool
-    //_playMusic Bool
+    //_playSFX Bool/toggle
+    //_playMusic Bool/toggle
     //Brightness slider
     //Sound Slider
     private int _highScore;
@@ -29,7 +29,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _instance = this;
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void SayHi()
