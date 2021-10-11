@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 Debug.LogError("The GameManager is null");
             }
@@ -18,12 +19,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [Header("Main Menu")]
     [SerializeField] private GameObject _startPanel;
     [SerializeField] private GameObject _optionsPanel;
-    //_playSFX Bool/toggle
-    //_playMusic Bool/toggle
-    //Brightness slider
-    //Sound Slider
+    [SerializeField] private Toggle _hardModeToggle;
+    [SerializeField] private Toggle _sfxToggle;
+    [SerializeField] private Toggle _musicToggle;
+    [SerializeField] private Slider _brightnessSlider;
+    [SerializeField] private Slider _soundSlider;
+
     private int _highScore;
     private bool _hardMode;
 
@@ -41,9 +45,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SayHi()
+    private void Start()
     {
-        Debug.Log("Hi! I'm the Game Manager");
+        _hardModeToggle.isOn = false;
+        _sfxToggle.isOn = true;
+        _musicToggle.isOn = true;
+        _brightnessSlider.value = 0.5f;
+        _soundSlider.value = 0.5f;
     }
 
     public void StartGame()

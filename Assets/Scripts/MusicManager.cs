@@ -17,6 +17,8 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    private AudioSource _audio;
+
     private void Awake()
     {
         if (_instance == null)

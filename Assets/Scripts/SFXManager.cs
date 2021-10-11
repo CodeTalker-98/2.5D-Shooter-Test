@@ -17,6 +17,16 @@ public class SFXManager : MonoBehaviour
         }
     }
 
+    private AudioSource _audio;
+
+    [Header("Menu SFX")]
+    [SerializeField] private AudioClip _menuConfirm;
+    [SerializeField] private AudioClip _menuBack;
+    [SerializeField] private AudioClip _menuHover;
+
+    [Header("Game SFX")]
+    [SerializeField] private AudioClip _playerShoot;
+
     private void Awake()
     {
         if (_instance == null)
@@ -29,5 +39,29 @@ public class SFXManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        _audio = GetComponent<AudioSource>();
+    }
+
+
+    public void SoundHoverMenu()
+    {
+        _audio.clip = _menuHover;
+        _audio.Play();
+    }
+
+    public void SoundConfirmMenu()
+    {
+        _audio.clip = _menuConfirm;
+        _audio.Play();
+    }
+
+    public void SoundBackMenu()
+    {
+        _audio.clip = _menuBack;
+        _audio.Play();
     }
 }
