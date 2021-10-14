@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SFXManager : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private AudioClip _menuBack;
     [SerializeField] private AudioClip _menuHover;
 
+    [Header("Main Menu")]
+    [SerializeField] private Toggle _sfxToggle;
+    [SerializeField] private Slider _soundSlider;
+
     [Header("Game SFX")]
     [SerializeField] private AudioClip _playerShoot;
 
@@ -44,8 +49,28 @@ public class SFXManager : MonoBehaviour
     private void Start()
     {
         _audio = GetComponent<AudioSource>();
+        _sfxToggle.isOn = true;
+        _soundSlider.value = 0.5f;
     }
 
+    public void UpdateSFX()
+    {
+        _sfxToggle.isOn = !_sfxToggle.isOn;
+
+        if (_sfxToggle.isOn)
+        {
+            _audio.mute = false;
+        }
+        else
+        {
+            _audio.mute = true;
+        }
+    }
+
+    public void UpdateVolume()
+    {
+        _audio.volume = _soundSlider.value;
+    }
 
     public void SoundHoverMenu()
     {

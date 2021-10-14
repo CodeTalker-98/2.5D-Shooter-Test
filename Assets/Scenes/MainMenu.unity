@@ -860,6 +860,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 817646875}
+        m_MethodName: UpdateSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &458684778
 GameObject:
@@ -1557,6 +1568,8 @@ MonoBehaviour:
   _menuConfirm: {fileID: 8300000, guid: 75613aad134fa924f82a0f4593b25388, type: 3}
   _menuBack: {fileID: 8300000, guid: 381c20b6abec6c54e9c017452133be8b, type: 3}
   _menuHover: {fileID: 8300000, guid: b96daf23e2860564fa90e66214c0ee28, type: 3}
+  _sfxToggle: {fileID: 412069468}
+  _soundSlider: {fileID: 1601478559}
   _playerShoot: {fileID: 0}
 --- !u!82 &817646876
 AudioSource:
@@ -1975,10 +1988,8 @@ MonoBehaviour:
   _startPanel: {fileID: 787255261}
   _optionsPanel: {fileID: 771071118}
   _hardModeToggle: {fileID: 1101813320}
-  _sfxToggle: {fileID: 412069468}
   _musicToggle: {fileID: 458684780}
   _brightnessSlider: {fileID: 1963299811}
-  _soundSlider: {fileID: 1601478559}
 --- !u!1 &1035131176
 GameObject:
   m_ObjectHideFlags: 0
@@ -3205,6 +3216,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 817646875}
         m_MethodName: SoundHoverMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 817646875}
+        m_MethodName: UpdateVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
