@@ -49,20 +49,20 @@ public class SFXManager : MonoBehaviour
     private void Start()
     {
         _audio = GetComponent<AudioSource>();
-        _sfxToggle.isOn = true;
         _soundSlider.value = 0.5f;
+        _sfxToggle.isOn = true;
     }
 
     public void UpdateSFX()
     {
-        _sfxToggle.isOn = !_sfxToggle.isOn;
-
         if (_sfxToggle.isOn)
         {
+            Debug.Log("SFX are on");
             _audio.mute = false;
         }
         else
         {
+            Debug.Log("SFX are off");
             _audio.mute = true;
         }
     }
@@ -72,15 +72,17 @@ public class SFXManager : MonoBehaviour
         _audio.volume = _soundSlider.value;
     }
 
-    public void SoundHoverMenu()
+    public void SoundConfirmMenu()
     {
-        _audio.clip = _menuHover;
+        Debug.Log("Confirm Sound Triggered");
+        _audio.clip = _menuConfirm;
         _audio.Play();
     }
 
-    public void SoundConfirmMenu()
+    public void SoundHoverMenu()
     {
-        _audio.clip = _menuConfirm;
+        Debug.Log("Hover Sound Triggered");
+        _audio.clip = _menuHover;
         _audio.Play();
     }
 

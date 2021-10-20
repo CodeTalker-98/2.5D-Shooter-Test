@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _startPanel;
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private Toggle _hardModeToggle;
-    [SerializeField] private Toggle _musicToggle;
     [SerializeField] private Slider _brightnessSlider;
 
     private int _highScore;
@@ -46,7 +45,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _hardModeToggle.isOn = false;
-        _musicToggle.isOn = true;
         _brightnessSlider.value = 0.5f;
     }
 

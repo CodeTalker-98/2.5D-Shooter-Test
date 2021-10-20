@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class MusicManager : MonoBehaviour
 
     private AudioSource _audio;
 
+    [Header("Options Menu")]
+    [SerializeField] private Toggle _musicToggle;
+
     private void Awake()
     {
         if (_instance == null)
@@ -31,5 +35,25 @@ public class MusicManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        _audio = GetComponent<AudioSource>();
+        _musicToggle.isOn = true;
+    }
+
+    public void UpdateMusic()
+    {
+        if (_musicToggle.isOn)
+        {
+            Debug.Log("Music is on");
+            _audio.mute = false;
+        }
+        else
+        {
+            Debug.Log("Music is off");
+            _audio.mute = true;
+        }
     }
 }
