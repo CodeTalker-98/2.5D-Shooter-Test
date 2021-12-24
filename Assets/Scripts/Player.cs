@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float _spd = 5.0f;                 // Player Movement Speed
     [SerializeField] private float _fireRate = 1.0f;            //Fire Rate of weapon
     private float _cycleTime = 0.0f;                            //Cycle time for weapon
+    private Vector3 _velocityChange;
     private Vector3 _velocity;                                  //Velocity for player
     [SerializeField] private GameObject _bullet;                //Bullet Player Shoots
     [SerializeField] private int _currentHealth = 1;            //Current health value
     private int _score = 0;                                     //Current score
     private UIManager _uiManager;                               //Comm with UI Manager
+    private bool _isPaused = false;
 
     private void Start()
     {
@@ -27,6 +29,25 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();                                       // Move player
         PlayerShoot();                                          //Player Shoot
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !_isPaused)
+        {
+            _uiManager.PausedGame();
+            GameManager.Instance.Pause();
+            _isPaused = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && _isPaused)
+        {
+            GameManager.Instance.Resume();
+            _isPaused = false;
+        }
+
+        //////////////////////TESTING FIX FOR END OF LEVEL/////////////////////////
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _uiManager.NextLevel();
+        }
+        //////////////////////TESTING FIX FOR END OF LEVEL/////////////////////////
     }
 
     void PlayerMovement()
@@ -34,10 +55,11 @@ public class Player : MonoBehaviour
         float hInput = Input.GetAxisRaw("Horizontal");          //Get input and use it to set direction
         float vInput = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(hInput, vInput, 0.0f).normalized;
+        _velocityChange = new Vector3(Mathf.Abs(hInput), 0.0f, 0.0f) * 2.0f;
 
-        _velocity = direction * _spd;                           //Create velocity
-        transform.Translate(_velocity * Time.deltaTime);        //Move player
-
+        _velocity = direction * _spd + _velocityChange;      //Create velocity
+        transform.Translate(_velocity * Time.deltaTime);     //Move player
+        
         float xClamp = Mathf.Clamp(transform.position.x, -8.75f, 8.75f);    //Resrict x and y movement
         float yClamp = Mathf.Clamp(transform.position.y, -3.5f, 5.5f);
         transform.position = new Vector3(xClamp, yClamp, 0.0f);             //Ensure position does not exceed restrictions
@@ -70,6 +92,7 @@ public class Player : MonoBehaviour
         if (_currentHealth < 1)                                                                             //If we are dead ( health < 1)
         {
             //Animate Death
+            _uiManager.PlayerDeath();
             SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();       //Find spawn manager communicate with it
             if (spawnManager != null)                                                                       //If spawn manager exists
             {

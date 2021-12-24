@@ -1691,6 +1691,7 @@ GameObject:
   - component: {fileID: 827083716}
   - component: {fileID: 827083715}
   - component: {fileID: 827083714}
+  - component: {fileID: 827083717}
   m_Layer: 0
   m_Name: Main Menu Canvas
   m_TagString: Untagged
@@ -1780,6 +1781,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &827083717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827083712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b84875ea23cac04f937974665124c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 827083716}
 --- !u!1 &849786587
 GameObject:
   m_ObjectHideFlags: 0

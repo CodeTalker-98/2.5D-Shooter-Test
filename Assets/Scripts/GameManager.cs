@@ -26,7 +26,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider _brightnessSlider;
 
     private int _highScore;
+    private int _sceneIndex;
     private bool _hardMode;
+
+    private Scene _scene;
 
     private void Awake()
     {
@@ -47,10 +50,45 @@ public class GameManager : MonoBehaviour
         _hardModeToggle.isOn = false;
         _brightnessSlider.value = 0.5f;
     }
+    private void Update()
+    {
+        _scene = SceneManager.GetActiveScene();
+        _sceneIndex = _scene.buildIndex;
+    }
 
     public void StartGame()
     {
         SceneManager.LoadScene(2);
+    }
+
+    public void RetryLevel()
+    {
+        SceneManager.LoadScene(_sceneIndex);
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0.0f;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1.0f;
+    }
+
+    public void ContinueGame()
+    {
+        int sceneCount = SceneManager.sceneCountInBuildSettings;
+
+        if(_sceneIndex < (sceneCount - 1))
+        {
+            Debug.Log(_sceneIndex + "< " + sceneCount);
+            SceneManager.LoadScene(_sceneIndex + 1);
+        }
+        else
+        {
+            QuitGame();
+        }
     }
 
     public void OptionsMenu()
