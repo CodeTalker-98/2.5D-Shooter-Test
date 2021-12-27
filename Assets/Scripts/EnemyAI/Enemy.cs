@@ -18,6 +18,11 @@ public abstract class Enemy : MonoBehaviour
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
 
+        if (_player == null)
+        {
+            Destroy(this.gameObject);
+        }
+
         CanSpawnPrefab();                                               //Run method to determine if we can spawn a powerup
 
         if (_canSpawnPrefab)                                            //If we can

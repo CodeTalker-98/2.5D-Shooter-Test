@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
         Vector3 bulletVelocity = Vector3.left * _spd;           //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
 
-        if (transform.position.x > -10.75f)
+        if (transform.position.x < -10.75f)
         {
             Destroy(this.gameObject);
         }
@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy" && !_isEnemyBullet)
+        //if(other.tag == "Enemy" && !_isEnemyBullet)
         {
             IDamagable hit = other.GetComponent<IDamagable>();
             

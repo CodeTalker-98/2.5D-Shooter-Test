@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, IDamagable
 {
     [SerializeField] private float _spd = 5.0f;                 // Player Movement Speed
     [SerializeField] private float _fireRate = 1.0f;            //Fire Rate of weapon
+    [SerializeField] private Transform _firingPosition;
     private float _cycleTime = 0.0f;                            //Cycle time for weapon
     private Vector3 _velocityChange;
     private Vector3 _velocity;                                  //Velocity for player
@@ -83,7 +84,7 @@ public class Player : MonoBehaviour, IDamagable
                 
                 if (_bullet != null)                            //Fire bullet if it exists
                 {
-                    Instantiate(_bullet, transform.position, Quaternion.identity);
+                    Instantiate(_bullet, _firingPosition.position, Quaternion.identity);
                 }
                 else
                 {
