@@ -61,8 +61,8 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CanSpawnPrefab()                       //Determines if we can spawn prefab
     {
         int randomInt = Random.Range(0, 3);             //Generates random number between max and min value
-        
-        if (randomInt == 1)                             //If random number equals set value
+
+        if (randomInt == 0)                             //If random number equals set value
         {
             _canSpawnPrefab = true;                     //We are capable of spawning a prefab
         }

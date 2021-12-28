@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingAI : Enemy, IDamagable
+public class AAGunAI : Enemy, IDamagable
 {
     [SerializeField] private float _fireRate = 1.0f;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _firingPosition;
-    private WaitForSeconds _actionCycle;
-    public int Health {get; set;}
+    private WaitForSeconds _cycleTime;
+
+    public int Health { get; set; }
 
     public override void Init()
     {
@@ -16,10 +17,10 @@ public class ShootingAI : Enemy, IDamagable
         Health = base._health;
     }
 
-    void Start()
+    private void Start()
     {
         Init();
-        _actionCycle = new WaitForSeconds(_fireRate);
+        _cycleTime = new WaitForSeconds(_fireRate);
         StartCoroutine(EnemyShoot());
     }
 
@@ -34,14 +35,14 @@ public class ShootingAI : Enemy, IDamagable
 
         if (Health < 1)
         {
+            _isDead = true;
+
+            //play anim
+
             if (_player != null)
             {
                 _player.UpdateScore(_scoreValue);
             }
-
-            _isDead = true;
-
-            //play anim
 
             if (_canSpawnPrefab)
             {
@@ -63,10 +64,10 @@ public class ShootingAI : Enemy, IDamagable
 
                 for (int i = 0; i < bullets.Length; i++)
                 {
-                    bullets[i].IsEnemyBullet();
+                    bullets[i].IsAABullet();
                 }
             }
-            yield return _actionCycle;
+            yield return _cycleTime;
         }
     }
 }

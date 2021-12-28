@@ -23,8 +23,10 @@ public class Kamikaze : Enemy, IDamagable
 
         if (Health < 1)
         {
-
-            _player.UpdateScore(_scoreValue);
+            if (_player != null)
+            {
+                _player.UpdateScore(_scoreValue);
+            }
 
             _isDead = true;
             //play anim

@@ -145,7 +145,7 @@ MonoBehaviour:
   _powerupPrefab: {fileID: 7107929643049316969, guid: 42b75e9ca027ddd4faf343390988c722,
     type: 3}
   _canSpawnPrefab: 0
-  _fireRate: 1
+  _fireRate: 5
   _bulletPrefab: {fileID: 6429282155070751236, guid: 9a9c859dde7dce94a813daa4039d5001,
     type: 3}
   _firingPosition: {fileID: 293918813322296177}

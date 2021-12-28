@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingAI : Enemy, IDamagable
+public class VtolAI : Enemy, IDamagable
 {
     [SerializeField] private float _fireRate = 1.0f;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _firingPosition;
-    private WaitForSeconds _actionCycle;
-    public int Health {get; set;}
+    [SerializeField] private float _amplitude = 1.0f;
+    [SerializeField] private float _frequency = 1.0f;
+    private WaitForSeconds _cycleTime;
+
+    public int Health { get; set; }
 
     public override void Init()
     {
@@ -16,11 +19,23 @@ public class ShootingAI : Enemy, IDamagable
         Health = base._health;
     }
 
-    void Start()
+    private void Start()
     {
         Init();
-        _actionCycle = new WaitForSeconds(_fireRate);
+        _cycleTime = new WaitForSeconds(_fireRate);
         StartCoroutine(EnemyShoot());
+    }
+
+    public override void EnemyMovement()
+    {
+        float y = _amplitude * Mathf.Sin(Time.time * _frequency);
+        Vector3 vtolVelocity = new Vector3(-_spd, y, 0.0f);
+        transform.Translate(vtolVelocity * Time.deltaTime);
+
+        if (transform.position.x < -12.5f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void TakeDamage(int damage)
@@ -34,14 +49,14 @@ public class ShootingAI : Enemy, IDamagable
 
         if (Health < 1)
         {
+            _isDead = true;
+
             if (_player != null)
             {
                 _player.UpdateScore(_scoreValue);
             }
 
-            _isDead = true;
-
-            //play anim
+            // play anim
 
             if (_canSpawnPrefab)
             {
@@ -60,13 +75,13 @@ public class ShootingAI : Enemy, IDamagable
             {
                 GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
                 Bullet[] bullets = enemyBullets.GetComponents<Bullet>();
-
+                
                 for (int i = 0; i < bullets.Length; i++)
                 {
                     bullets[i].IsEnemyBullet();
                 }
             }
-            yield return _actionCycle;
+            yield return _cycleTime;
         }
     }
 }
