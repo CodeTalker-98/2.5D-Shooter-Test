@@ -7,28 +7,33 @@ public class OspreyAI : Enemy, IDamagable
     [SerializeField] private float _fireRate = 1.0f;
     [SerializeField] private float _wait = 3.0f;
     [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject _homingMissilePrefab;
     [SerializeField] private Transform _firingPosition;
     [SerializeField] private Transform _lungePosition;
     [SerializeField] private Transform _startingPosition;
     [SerializeField] private Transform _topFiringPosition;
     [SerializeField] private Transform _bottomFiringPosition;
+    [SerializeField] private Transform _target;
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
     private int _maxHealth;
-    private bool _atTop = false;
-    private bool _atBottom = false;
-    private bool _atMiddle = false;
+    [SerializeField] private bool _atTop = false;
+    [SerializeField] private bool _atBottom = false;
+    [SerializeField] private bool _atMiddle = false;
+    [SerializeField] private bool _lowHealth = false;
+    [SerializeField] private bool _healthMonitor = false;
     private bool _canRandomize = true;
-    [SerializeField] private bool _switching = false;
-    private Transform _target;
+    private bool _canWait = false;
+    [SerializeField] private bool _goingHome = false;
     private WaitForSeconds _cycleTime;
     private WaitForSeconds _waitTime;
 
     public int Health { get; set; }
-
+   
     public override void Init()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _target = GameObject.Find("Target").GetComponent<Transform>();
 
         if (_player == null)
         {
@@ -48,11 +53,17 @@ public class OspreyAI : Enemy, IDamagable
         StartCoroutine(EnemyShoot());
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+
+    }
+
     public override void EnemyMovement()
     {
         float y = _amplitude * Mathf.Sin(Time.time * _frequency);
         Vector3 idleVelocity = new Vector3(0.0f, y, 0.0f);
-        //Vector3 enemyMoveVelocity = Vector3.left * _spd;
 
         if (Health > _maxHealth * .5f)
         {
@@ -60,43 +71,19 @@ public class OspreyAI : Enemy, IDamagable
         }
         else
         {
-            if (_canRandomize)
-            {
-                Randomize();
-            }
-        }
-    }
+            Randomize();
 
-    private void MovePosition()
-    {
-        _canRandomize = false;
-        if (!_switching)
-        {
-            if (_atTop)
+            if (transform.position == _target.position && _canWait && !_goingHome)
             {
-                _target.position = _topFiringPosition.position;
-                transform.position = Vector3.Lerp(transform.position, _target.position, _spd * Time.deltaTime);
-                if (transform.position == _target.position)
-                {
-                    StartCoroutine(Wait());
-                }
+                StartCoroutine(Wait());
             }
-            else if (_atMiddle)
+            else if (_target.position == _startingPosition.position && transform.position == _target.position && _goingHome)
             {
-                _target.position = _lungePosition.position;
-            }
-            else if (_atBottom)
-            {
-                _target.position = _bottomFiringPosition.position;
-            }
-        }
-        else
-        {
-            transform.position = Vector3.Lerp(transform.position, _startingPosition.position, _spd * Time.deltaTime);
-            if (transform.position == _startingPosition.position)
-            {
+                _goingHome = false;
                 _canRandomize = true;
             }
+
+            transform.position = Vector3.MoveTowards(transform.position, _target.position, _spd * Time.deltaTime);
         }
     }
 
@@ -108,6 +95,12 @@ public class OspreyAI : Enemy, IDamagable
         }
 
         Health -= damage;
+
+        if (Health <= _maxHealth * 0.5f && !_lowHealth)
+        {
+            _lowHealth = true;
+            StartCoroutine(LaunchHomingMissile());
+        }
 
         if (Health < 1)
         {
@@ -126,14 +119,14 @@ public class OspreyAI : Enemy, IDamagable
 
     IEnumerator EnemyShoot()
     {
-        while (!_isDead && (Health > _maxHealth * 0.5f) || !_isDead && _atMiddle)
+        while (!_isDead && (Health > _maxHealth * 0.5f))
         {
             if (_bulletPrefab != null)
             {
                 GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
                 Bullet[] bullets = enemyBullets.GetComponentsInChildren<Bullet>();
 
-                for(int i = 0; i < bullets.Length; i++)
+                for (int i = 0; i < bullets.Length; i++)
                 {
                     bullets[i].IsEnemyBullet();
                 }
@@ -141,76 +134,74 @@ public class OspreyAI : Enemy, IDamagable
 
             yield return _cycleTime;
         }
+    }
 
-        //Shoot down from Top
-
-        while (!_isDead && _atTop)
+    IEnumerator LaunchHomingMissile()
+    {
+        while (!_isDead)
         {
-            if (_bulletPrefab != null)
+            if (_homingMissilePrefab != null)
             {
-                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
-                Bullet[] bullets = enemyBullets.GetComponentsInChildren<Bullet>();
+                GameObject enemyHomingMissiles = Instantiate(_homingMissilePrefab, _firingPosition.position, Quaternion.identity);
+                HomingMissileAI[] missiles = enemyHomingMissiles.GetComponents<HomingMissileAI>();
 
-                for (int i = 0; i < bullets.Length; i++)
+                for (int i = 0; i < missiles.Length; i++)
                 {
-                    bullets[i].IsBomberBullet();
+                    missiles[i].IsEnemyBullet();
                 }
             }
-        }
-
-        //Shoot up from Bottom
-
-        while (!_isDead && _atBottom)
-        {
-            if (_bulletPrefab != null)
-            {
-                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
-                Bullet[] bullets = enemyBullets.GetComponentsInChildren<Bullet>();
-
-                for (int i = 0; i < bullets.Length; i++)
-                {
-                    bullets[i].IsBossBullet();
-                }
-            }
+            yield return _cycleTime;
         }
     }
 
     private void Randomize()
     {
-        _canRandomize = false;
-        int randomInt = Random.Range(0, 1);
-
-        switch (randomInt)
+        if (_canRandomize)
         {
-            case 0:
-                _atTop = true;
-                _atMiddle = false;
-                _atBottom = false;
-                break;
-            case 1:
-                _atTop = false;
-                _atMiddle = true;
-                _atBottom = false;
-                break;
-            case 2:
-                _atTop = false;
-                _atMiddle = false;
-                _atBottom = true;
-                break;
+            int randomInt = Random.Range(0, 3);
 
-            default:
-                break;
+            Debug.Log("Random Int: " + randomInt);
+
+            switch (randomInt)
+            {
+                case 0:
+                    _atTop = true;
+                    _goingHome = false;
+                    _target.position = _topFiringPosition.position;
+                    break;
+
+                case 1:
+                    _atMiddle = true;
+                    _goingHome = false;
+                    _target.position = _lungePosition.position;
+                    break;
+
+                case 2:
+                    _atBottom = true;
+                    _goingHome = false;
+                    _target.position = _bottomFiringPosition.position;
+                    break;
+
+                default:
+                    break;
+            }
+            _canRandomize = false;
+            _canWait = true;
         }
-
-        MovePosition();
+        else
+        {
+            return;
+        }
     }
 
     IEnumerator Wait()
     {
+        _canWait = false;
         yield return _waitTime;
         _atTop = false;
         _atMiddle = false;
         _atBottom = false;
-        _switching = true;
+        _goingHome = true;
+        _target.position = _startingPosition.position;
     }
 }
