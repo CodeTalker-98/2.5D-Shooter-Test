@@ -1,0 +1,136 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AC130AI : Enemy, IDamagable
+{
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject _shrapnelBulletPrefab;
+    [SerializeField] private Transform _firingPosition;
+    [SerializeField] private float _amplitude = 1.0f;
+    [SerializeField] private float _frequency = 1.0f;
+    [SerializeField] private float _fireRate = 0.75f;
+    private enum AttackState
+    {
+        FirstState,
+        SecondState,
+        ThirdState
+    }
+
+    [SerializeField] private AttackState _attackState;
+    private WaitForSeconds _cycleTime;
+    private int _maxHealth;
+    private bool _firstState = true;
+    private bool _secondState = false;
+    private bool _thirdState = false;
+    public int Health { get; set; }
+
+    public override void Init()
+    {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+
+        if(_player == null)
+        {
+            Destroy(this.gameObject);
+        }
+        
+        Health = base._health;
+        _maxHealth = Health;
+        _attackState = AttackState.FirstState;
+    }
+
+    private void Start()
+    {
+        Init();
+        _cycleTime = new WaitForSeconds(_fireRate);
+        StartCoroutine(EnemyShoot());
+    }
+
+    public override void EnemyMovement()
+    {
+        switch (_attackState)
+        {
+            case AttackState.FirstState:
+                float y = _amplitude * Mathf.Sin(Time.time * _frequency);
+                Vector3 idle = new Vector3(0.0f, y, 0.0f);
+                transform.Translate(idle * Time.deltaTime);
+                break;
+            case AttackState.SecondState:
+                float ySecond = _amplitude * Mathf.Sin(Time.time * _frequency);
+                Vector3 idleSecond = new Vector3(0.0f, ySecond, 0.0f);
+                transform.Translate(idleSecond * Time.deltaTime);
+                break;
+            case AttackState.ThirdState:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (_isDead)
+        {
+            return;
+        }
+
+        Health -= damage;
+
+        if ((Health < (_maxHealth * 0.66f)) && (Health > (_maxHealth * 0.33f)))
+        {
+            _firstState = false;
+            _secondState = true;
+            _attackState = AttackState.SecondState;
+            _cycleTime = new WaitForSeconds(_fireRate / 2.0f);
+        }
+        else if (Health <= (_maxHealth * 0.33f))
+        {
+            _secondState = false;
+            _thirdState = true;
+            _attackState = AttackState.ThirdState;
+        }
+
+        if (Health < 1)
+        {
+            _isDead = true;
+
+            // play anim
+
+            if(_player != null)
+            {
+                _player.UpdateScore(_scoreValue);
+            }
+
+            Destroy(this.gameObject);
+        }
+    }
+
+    IEnumerator EnemyShoot()
+    {
+        while (!_isDead && _firstState)
+        {
+            BulletInstantiation(_bulletPrefab);
+            yield return _cycleTime;
+        }
+
+        while (!_isDead && _secondState)
+        {
+            BulletInstantiation(_shrapnelBulletPrefab);
+            yield return _cycleTime;
+        }
+    }
+
+    private void BulletInstantiation(GameObject bulletPrefab)
+    {
+        if (_bulletPrefab != null)
+        {
+            GameObject bullets = Instantiate(bulletPrefab, _firingPosition.position, Quaternion.identity);
+            Bullet[] bulletInstances = bullets.GetComponentsInChildren<Bullet>();
+            
+            for (int i = 0; i < bulletInstances.Length; i++)
+            {
+                bulletInstances[i].IsEnemyBullet();
+            }
+        }
+    }
+}

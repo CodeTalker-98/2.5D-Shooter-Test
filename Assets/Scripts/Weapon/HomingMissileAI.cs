@@ -8,34 +8,33 @@ public class HomingMissileAI : Bullet
     [SerializeField] private float _fuseDelay = 5.0f;
     [SerializeField] private float _rotateSpd = 1.0f;
     private Transform _target;
-    private Transform _localTransform;
     private Rigidbody _rb;
     private WaitForSeconds _acquisitionDelay;
 
     private void Start()
     {
         _acquisitionDelay = new WaitForSeconds(_delay);
-        _rb = GetComponent<Rigidbody>();
         StartCoroutine(AcquireTarget());
-        _localTransform = GetComponent<Transform>();
     }
 
     private void Update()
     {
-        Destroy(this.gameObject, _fuseDelay);
-    }
-    private void FixedUpdate()
-    {
         HomingMissileBehavior();
+
+        if (_target == null)
+        {
+            Destroy(this.gameObject);
+        }
+
+        Destroy(this.gameObject, _fuseDelay);
     }
 
     private void HomingMissileBehavior()
     {
         if (_target != null)
         {
-            _rb.velocity = _localTransform.forward * _spd * Time.deltaTime;
-            Quaternion rotation = Quaternion.LookRotation(_target.position - _localTransform.position);
-            _rb.MoveRotation(Quaternion.RotateTowards(_localTransform.rotation, rotation, _rotateSpd));
+            transform.LookAt(_target.transform);
+            StartCoroutine(LaunchMissile());
         }
     }
 
@@ -52,7 +51,7 @@ public class HomingMissileAI : Bullet
                 Destroy(this.gameObject);
             }
         }
-        else if (other.tag != "Enemy")
+        else if (other.tag == "Enemy")
         {
             IDamagable hit = other.GetComponent<IDamagable>();
 
@@ -67,7 +66,6 @@ public class HomingMissileAI : Bullet
 
     IEnumerator AcquireTarget()
     {
-        yield return _acquisitionDelay;
         if (_isEnemyBullet)
         {
             _target = GameObject.Find("Player").GetComponent<Transform>();
@@ -76,5 +74,18 @@ public class HomingMissileAI : Bullet
         {
             _target = GameObject.FindGameObjectWithTag("Enemy").transform;
         }
+        yield return _acquisitionDelay;
+    }
+
+    IEnumerator LaunchMissile()
+    {
+        yield return _acquisitionDelay;
+        while (Vector3.Distance(_target.transform.position, transform.position) > 0.3f)
+        {
+            transform.position += (_target.transform.position - transform.position).normalized * _spd * Time.deltaTime;
+            transform.LookAt(_target.transform);
+            yield return null;
+        }
+        Destroy(this.gameObject);
     }
 }

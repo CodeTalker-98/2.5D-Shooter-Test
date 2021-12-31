@@ -47,17 +47,11 @@ public class OspreyAI : Enemy, IDamagable
     private void Start()
     {
         Init();
+        _fireRate = 1.0f;
         _cycleTime = new WaitForSeconds(_fireRate);
         _waitTime = new WaitForSeconds(_wait);
         transform.position = _startingPosition.position;
         StartCoroutine(EnemyShoot());
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-
     }
 
     public override void EnemyMovement()
@@ -99,6 +93,8 @@ public class OspreyAI : Enemy, IDamagable
         if (Health <= _maxHealth * 0.5f && !_lowHealth)
         {
             _lowHealth = true;
+            _fireRate = 5.0f;
+            _cycleTime = new WaitForSeconds(_fireRate);
             StartCoroutine(LaunchHomingMissile());
         }
 

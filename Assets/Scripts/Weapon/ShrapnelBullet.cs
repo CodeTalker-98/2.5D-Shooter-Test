@@ -1,0 +1,78 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShrapnelBullet : Bullet
+{
+    [SerializeField] private GameObject _shrapnelPrefab;
+    [SerializeField] private int _numberOfBullets = 2;
+    [SerializeField] private float _lifespan = 1.0f;
+    [SerializeField] private float _radius = 3.0f;
+    private WaitForSeconds _detonationTimer;
+
+
+    private void Start()
+    {
+        _detonationTimer = new WaitForSeconds(_lifespan);
+        StartCoroutine(Detonate());
+    }
+
+    private void Update()
+    {
+        BulletMovement();
+    }
+
+    private void BulletMovement()
+    {
+        Vector3 bulletVelocity = Vector3.left * _spd;
+        transform.Translate(bulletVelocity * Time.deltaTime);
+
+        if (transform.position.x < -10.75f)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player" && _isEnemyBullet)
+        {
+            DealDamage(other);
+        }
+        else if (other.tag == "Enemy")
+        {
+            DealDamage(other);
+        }
+    }
+
+    private void DealDamage(Collider other)
+    {
+        IDamagable hit = other.GetComponent<IDamagable>();
+
+        if (hit != null)
+        {
+            hit.TakeDamage(_damageValue);
+            //Play anim
+            Destroy(this.gameObject);
+        }
+    }
+
+    IEnumerator Detonate()
+    {
+        yield return _detonationTimer;
+        //play anim
+        for (int i = 0; i < _numberOfBullets; i++)
+        {
+            Debug.Log("In For Loop");
+            float angle = i * Mathf.PI * 2 / _numberOfBullets;
+            float x = Mathf.Cos(angle) * _radius;
+            float y = Mathf.Sin(angle) * _radius;
+            Vector3 spawnPoint = transform.position + new Vector3(x, y, 0.0f);
+            float angleDegrees = -angle * Mathf.Rad2Deg;
+            Quaternion spawnRotation = Quaternion.Euler(0.0f, 0.0f, angleDegrees);
+            Instantiate(_shrapnelPrefab, spawnPoint, spawnRotation);
+        }
+        Debug.Break();
+        Destroy(this.gameObject);
+    }
+}
