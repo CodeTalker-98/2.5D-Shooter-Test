@@ -14,6 +14,7 @@ public class ShrapnelBullet : Bullet
     private void Start()
     {
         _detonationTimer = new WaitForSeconds(_lifespan);
+        _damageValue = _numberOfBullets;
         StartCoroutine(Detonate());
     }
 
@@ -63,16 +64,16 @@ public class ShrapnelBullet : Bullet
         //play anim
         for (int i = 0; i < _numberOfBullets; i++)
         {
-            Debug.Log("In For Loop");
-            float angle = i * Mathf.PI * 2 / _numberOfBullets;
-            float x = Mathf.Cos(angle) * _radius;
-            float y = Mathf.Sin(angle) * _radius;
+            float sector = i * Mathf.PI * 2 / _numberOfBullets;
+            float x = Mathf.Cos(sector) * _radius;
+            float y = Mathf.Sin(sector) * _radius;
             Vector3 spawnPoint = transform.position + new Vector3(x, y, 0.0f);
-            float angleDegrees = -angle * Mathf.Rad2Deg;
-            Quaternion spawnRotation = Quaternion.Euler(0.0f, 0.0f, angleDegrees);
+            Vector3 direction = spawnPoint - transform.position;
+            Debug.DrawRay(transform.position, direction, Color.green);
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion spawnRotation = Quaternion.Euler(0.0f, 0.0f, angle);
             Instantiate(_shrapnelPrefab, spawnPoint, spawnRotation);
         }
-        Debug.Break();
         Destroy(this.gameObject);
     }
 }

@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class Shrapnel : Bullet
 {
-    private void Start()
-    {
-        Debug.DrawRay(transform.position, transform.right, Color.green, 1.0f);;
-        _spd = 1.0f;
-    }
-
     private void Update()
     {
         BulletMovement();
@@ -17,15 +11,10 @@ public class Shrapnel : Bullet
 
     private void BulletMovement()
     {
-        Debug.Log("In Bullet Movement");
-        Vector3 bulletVelocity = transform.up * _spd;
-        bulletVelocity = transform.TransformDirection(bulletVelocity);
-        transform.Translate(bulletVelocity * Time.deltaTime);
-        Debug.Log("Moving");
+        transform.position += transform.right * Time.deltaTime * _spd; 
 
         if (transform.position.x < -10.75f || transform.position.x > 10.75f || transform.position.y < -7.0f || transform.position.y > 7.0f)
         {
-            Debug.Log("Destroying because of bounds");
             Destroy(this.gameObject);
         }
     }
@@ -34,14 +23,12 @@ public class Shrapnel : Bullet
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Collided with Player");
             DealDamage(other);
         }
     }
 
     private void DealDamage(Collider other)
     {
-        Debug.Log("Dealing Damage");
         IDamagable hit = other.GetComponent<IDamagable>();
 
         if (hit != null) 

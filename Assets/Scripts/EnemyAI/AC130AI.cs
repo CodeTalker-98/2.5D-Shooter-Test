@@ -76,14 +76,16 @@ public class AC130AI : Enemy, IDamagable
 
         Health -= damage;
 
-        if ((Health < (_maxHealth * 0.66f)) && (Health > (_maxHealth * 0.33f)))
+        if ((Health < (_maxHealth * 0.66f)) && (Health > (_maxHealth * 0.33f)) && !_secondState)
         {
             _firstState = false;
             _secondState = true;
+            _amplitude = 10.0f;
+            _frequency = 5.0f;
             _attackState = AttackState.SecondState;
-            _cycleTime = new WaitForSeconds(_fireRate / 2.0f);
+            _cycleTime = new WaitForSeconds(_fireRate * 1.5f);
         }
-        else if (Health <= (_maxHealth * 0.33f))
+        else if (Health <= (_maxHealth * 0.33f) && !_thirdState)
         {
             _secondState = false;
             _thirdState = true;

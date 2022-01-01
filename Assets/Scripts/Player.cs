@@ -22,7 +22,7 @@ public class Player : MonoBehaviour, IDamagable
     {
         _uiManager = GameObject.Find("UI").GetComponentInChildren<UIManager>();
         
-        Health = 1;
+        Health = 5;
         if (_uiManager != null)
         {
             _uiManager.UpdateHealthBar(Health);

@@ -127,6 +127,6 @@ MonoBehaviour:
   _damageValue: 1
   _shrapnelPrefab: {fileID: 9196635387495422223, guid: 077f67c7f5da6844cbb4bf8d554f118d,
     type: 3}
-  _numberOfBullets: 2
-  _lifespan: 1
+  _numberOfBullets: 8
+  _lifespan: 2
   _radius: 3
