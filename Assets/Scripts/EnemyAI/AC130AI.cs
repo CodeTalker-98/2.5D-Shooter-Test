@@ -61,9 +61,16 @@ public class AC130AI : Enemy, IDamagable
                 transform.Translate(idleSecond * Time.deltaTime);
                 break;
             case AttackState.ThirdState:
+                Vector3 bulletVelocity = Vector3.left * _spd;
+                transform.Translate(bulletVelocity * Time.deltaTime);
                 break;
             default:
                 break;
+        }
+
+        if (transform.position.x < -15.0f)
+        {
+            transform.position = new Vector3(10.75f, Random.Range(-3.0f, 5.0f), 0.0f);
         }
     }
 
@@ -89,7 +96,9 @@ public class AC130AI : Enemy, IDamagable
         {
             _secondState = false;
             _thirdState = true;
+            _spd = 10.0f;
             _attackState = AttackState.ThirdState;
+            _cycleTime = new WaitForSeconds(_fireRate / 1.5f);
         }
 
         if (Health < 1)

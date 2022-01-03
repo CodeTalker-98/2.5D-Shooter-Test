@@ -40,7 +40,7 @@ public class ShrapnelBullet : Bullet
         {
             DealDamage(other);
         }
-        else if (other.tag == "Enemy")
+        else if (other.tag == "Enemy" && !_isEnemyBullet)
         {
             DealDamage(other);
         }
