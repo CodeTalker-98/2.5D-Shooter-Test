@@ -39,7 +39,7 @@ public class OspreyAI : Enemy, IDamagable
         {
             Destroy(this.gameObject);
         }
-        
+
         Health = base._health;
         _maxHealth = Health;
     }

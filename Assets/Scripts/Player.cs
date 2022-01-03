@@ -150,13 +150,13 @@ public class Player : MonoBehaviour, IDamagable
             _isDead = true;
             //play anim
             _uiManager.PlayerDeath();                                                                       //Updates the Health bar on the HUD
-            
-            SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();       //Find spawn manager communicate with it
-            if (spawnManager != null)                                                                       //If spawn manager exists
+            Destroy(this.gameObject);
+            //SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();       //Find spawn manager communicate with it
+            /*if (spawnManager != null)                                                                       //If spawn manager exists
             {
                 spawnManager.OnPlayerDeath();                                                               //Call method to stop spawning
-                Destroy(this.gameObject);                                                                   //Destroy ourselves
-            }
+                                                                                 //Destroy ourselves
+            }*/
         }
     }
 }
