@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spd: 3
-  _health: 3
-  _scoreValue: 100
+  _health: 20
+  _scoreValue: 3500
   _damageValue: 1
   _collisionDamage: 1
   _powerupPrefab: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   _atTop: 0
   _atBottom: 0
   _atMiddle: 0
-  _lowHealth: 0
+  _lowHealth: 1
   _healthMonitor: 0
   _goingHome: 0
 --- !u!1 &5739467354536951417

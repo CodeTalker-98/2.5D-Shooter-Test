@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2393863b67eef3c489a74de20fa1a7ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spd: 1
+  _spd: 0.5
   _health: 10
   _scoreValue: 500
   _damageValue: 1
