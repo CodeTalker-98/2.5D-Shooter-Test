@@ -50,7 +50,6 @@ public class OspreyAI : Enemy, IDamagable
         _fireRate = 1.0f;
         _cycleTime = new WaitForSeconds(_fireRate);
         _waitTime = new WaitForSeconds(_wait);
-        transform.position = _startingPosition.position;
         StartCoroutine(EnemyShoot());
     }
 
