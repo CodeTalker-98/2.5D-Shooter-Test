@@ -10,7 +10,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int _damageValue = 1;             //Sets damage enemy can deal
     [SerializeField] protected int _collisionDamage = 1;
     [SerializeField] protected GameObject _powerupPrefab;         //Powerup to spawn
-    [SerializeField] protected bool _canSpawnPrefab = false;        //Check if we can spawn prefab;
+    [SerializeField] protected bool _canSpawnPrefab = false;      //Check if we can spawn prefab;
+    [SerializeField] protected float _fireRate = 1.0f;
     protected Player _player;
     protected bool _isDead = false;
 
@@ -29,6 +30,19 @@ public abstract class Enemy : MonoBehaviour
         {
             MeshRenderer renderer = GetComponent<MeshRenderer>();       //Get the enemy's mesh renderer component
             renderer.material.color = Color.blue;                       //Set it equal to blue to differentiate
+        }
+
+        if(GameManager.Instance != null)
+        {
+            if (GameManager.Instance.HardModeValue())
+            {
+                _fireRate *= 0.75f;
+                _spd *= 2.0f;
+            }
+        }
+        else
+        {
+            return;
         }
     }
 
@@ -60,7 +74,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void CanSpawnPrefab()                       //Determines if we can spawn prefab
     {
-        int randomInt = Random.Range(0, 3);             //Generates random number between max and min value
+        int randomInt = Random.Range(0, 4);             //Generates random number between max and min value
 
         if (randomInt == 0)                             //If random number equals set value
         {

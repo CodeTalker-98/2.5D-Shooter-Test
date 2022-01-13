@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class OspreyAI : Enemy, IDamagable
 {
-    [SerializeField] private float _fireRate = 1.0f;
     [SerializeField] private float _wait = 3.0f;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _homingMissilePrefab;
@@ -38,6 +37,19 @@ public class OspreyAI : Enemy, IDamagable
         if (_player == null)
         {
             Destroy(this.gameObject);
+        }
+
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.HardModeValue())
+            {
+                _fireRate *= 0.75f;
+                _spd *= 2.0f;
+            }
+        }
+        else
+        {
+            return;
         }
 
         Health = base._health;

@@ -9,7 +9,6 @@ public class AC130AI : Enemy, IDamagable
     [SerializeField] private Transform _firingPosition;
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
-    [SerializeField] private float _fireRate = 0.75f;
     private enum AttackState
     {
         FirstState,
@@ -33,7 +32,20 @@ public class AC130AI : Enemy, IDamagable
         {
             Destroy(this.gameObject);
         }
-        
+
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.HardModeValue())
+            {
+                _fireRate *= 0.75f;
+                _spd *= 2.0f;
+            }
+        }
+        else
+        {
+            return;
+        }
+
         Health = base._health;
         _maxHealth = Health;
         _attackState = AttackState.FirstState;

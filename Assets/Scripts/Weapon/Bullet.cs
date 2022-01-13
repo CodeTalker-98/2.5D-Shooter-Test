@@ -9,7 +9,44 @@ public class Bullet : MonoBehaviour
     protected bool _isEnemyBullet = false;
     private bool _isBomberBullet = false;
     private bool _isAaBullet = false;
-    
+    private Player _player;
+
+    private void Start()
+    {
+        if (!_isEnemyBullet && !_isAaBullet && !_isBomberBullet)
+        {
+            _player = GameObject.Find("Player").GetComponent<Player>();
+
+            if (_player != null)
+            {
+                switch (_player.SendPlayerHealth())
+                {
+                    case 0:
+                        _damageValue = 0;
+                        break;
+                    case 1:
+                        _damageValue = 1;
+                        break;
+                    case 2:
+                        _damageValue = 2;
+                        break;
+                    case 3:
+                        _damageValue = 2;
+                        break;
+                    case 4:
+                        _damageValue = 3;
+                        break;
+                    case 5:
+                        _damageValue = 1;
+                        break;
+                    default:
+                        _damageValue = 1;
+                        break;
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         if (_isEnemyBullet && !_isAaBullet && !_isBomberBullet)

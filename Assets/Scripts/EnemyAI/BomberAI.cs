@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BomberAI : Enemy, IDamagable
 {
-    [SerializeField] private float _fireRate;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _firingPosition;
     private WaitForSeconds _actionCycle;

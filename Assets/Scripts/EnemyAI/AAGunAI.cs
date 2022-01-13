@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AAGunAI : Enemy, IDamagable
 {
-    [SerializeField] private float _fireRate = 1.0f;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _firingPosition;
     private WaitForSeconds _cycleTime;

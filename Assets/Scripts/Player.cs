@@ -39,6 +39,31 @@ public class Player : MonoBehaviour, IDamagable
         PlayerMovement();                                       // Move player
         PlayerShoot();                                          //Player Shoot
 
+        switch (Health)
+        {
+            case 0:
+                _fireRate = 1.0f;
+                break;
+            case 1:
+                _fireRate = 1.0f;
+                break;
+            case 2:
+                _fireRate = 1.0f;
+                break;
+            case 3:
+                _fireRate = 0.5f;
+                break;
+            case 4:
+                _fireRate = 0.5f;
+                break;
+            case 5:
+                _fireRate = 0.125f;
+                break;
+            default:
+                _fireRate = 1.0f;
+                break;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape) && !_isPaused)
         {
             _uiManager.PausedGame();
@@ -57,6 +82,7 @@ public class Player : MonoBehaviour, IDamagable
             _uiManager.NextLevel();
         }
         //////////////////////TESTING FIX FOR END OF LEVEL/////////////////////////
+
     }
 
     void PlayerMovement()
@@ -76,7 +102,10 @@ public class Player : MonoBehaviour, IDamagable
 
     void PlayerShoot()
     {
-        if (Input.GetKeyDown(KeyCode.Space))                    //Check for space bar
+
+        //Update fire rate based on health
+
+        if (Input.GetKey(KeyCode.Space))                    //Check for space bar
         {
             if (Time.time > _cycleTime)                         //if game time is greater than weapon cycle time
             {
@@ -97,6 +126,11 @@ public class Player : MonoBehaviour, IDamagable
     public void UpdateScore(int scoreValue)
     {
         _score += scoreValue;
+    }
+
+    public int SendPlayerHealth()
+    {
+        return Health;
     }
 
     public int SendPlayerScore()
@@ -151,12 +185,6 @@ public class Player : MonoBehaviour, IDamagable
             //play anim
             _uiManager.PlayerDeath();                                                                       //Updates the Health bar on the HUD
             Destroy(this.gameObject);
-            //SpawnManager spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();       //Find spawn manager communicate with it
-            /*if (spawnManager != null)                                                                       //If spawn manager exists
-            {
-                spawnManager.OnPlayerDeath();                                                               //Call method to stop spawning
-                                                                                 //Destroy ourselves
-            }*/
         }
     }
 }

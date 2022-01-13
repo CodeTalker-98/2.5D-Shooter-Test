@@ -91,6 +91,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void HardMode()
+    {
+        _hardMode = _hardModeToggle.isOn;
+        Debug.Log("Hard mode: " + _hardMode);
+    }
+
+    public bool HardModeValue()
+    {
+        return _hardMode;
+    }
+
     public void OptionsMenu()
     {
         _startPanel.SetActive(false);
