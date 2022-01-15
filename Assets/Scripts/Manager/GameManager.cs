@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Main Menu")]
-    [SerializeField] private GameObject _startPanel;
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private Toggle _hardModeToggle;
     [SerializeField] private Slider _brightnessSlider;
@@ -47,7 +46,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _hardModeToggle.isOn = false;
         _brightnessSlider.value = 0.5f;
     }
     private void Update()
@@ -58,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void RetryLevel()
@@ -104,14 +102,12 @@ public class GameManager : MonoBehaviour
 
     public void OptionsMenu()
     {
-        _startPanel.SetActive(false);
         _optionsPanel.SetActive(true);
     }
 
     public void BackButton()
     {
         _optionsPanel.SetActive(false);
-        _startPanel.SetActive(true);
     }
 
     public void QuitGame()

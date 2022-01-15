@@ -58,7 +58,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void EnemyMovement()
     {
-        Vector3 enemyVelocity = Vector3.left * _spd;                //Sets direction for enemy to move
+        Vector3 enemyVelocity = Vector3.forward * _spd;                //Sets direction for enemy to move
         transform.Translate(enemyVelocity * Time.deltaTime);        //moves enemy
 
         if (transform.position.x < -12.5f)                          //Removes enemy if offscreen

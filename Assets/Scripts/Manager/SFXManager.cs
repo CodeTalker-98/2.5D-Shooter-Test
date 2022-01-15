@@ -32,6 +32,8 @@ public class SFXManager : MonoBehaviour
     [Header("Game SFX")]
     [SerializeField] private AudioClip _playerShoot;
 
+    private AudioSource _musicAudio;
+
     private void Awake()
     {
         if (_instance == null)
@@ -49,8 +51,9 @@ public class SFXManager : MonoBehaviour
     private void Start()
     {
         _audio = GetComponent<AudioSource>();
+        _musicAudio = MusicManager.Instance.GetComponent<AudioSource>();
         _soundSlider.value = 0.5f;
-        _sfxToggle.isOn = true;
+        UpdateVolume();
     }
 
     public void UpdateSFX()
@@ -70,6 +73,7 @@ public class SFXManager : MonoBehaviour
     public void UpdateVolume()
     {
         _audio.volume = _soundSlider.value;
+        _musicAudio.volume = _soundSlider.value;
     }
 
     public void SoundConfirmMenu()

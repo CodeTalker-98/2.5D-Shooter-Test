@@ -40,7 +40,6 @@ public class MusicManager : MonoBehaviour
     private void Start()
     {
         _audio = GetComponent<AudioSource>();
-        _musicToggle.isOn = true;
     }
 
     public void UpdateMusic()
