@@ -11,9 +11,9 @@ public class Shrapnel : Bullet
 
     private void BulletMovement()
     {
-        transform.position += transform.right * Time.deltaTime * _spd; 
+        transform.position += -transform.up * Time.deltaTime * _spd; 
 
-        if (transform.position.x < -10.75f || transform.position.x > 10.75f || transform.position.y < -7.0f || transform.position.y > 7.0f)
+        if (transform.position.x < -30.0f || transform.position.x > 30.0f || transform.position.y < -30.0f || transform.position.y > 20.0f)
         {
             Destroy(this.gameObject);
         }

@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour
         Vector3 bulletVelocity = Vector3.right * _spd;          //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
 
-        if (transform.position.x > 10.75f)
+        if (transform.position.x > 30.0f)
         {
             Destroy(this.gameObject);
         }
@@ -83,7 +83,7 @@ public class Bullet : MonoBehaviour
         Vector3 bulletVelocity = Vector3.left * _spd;           //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
 
-        if (transform.position.x < -10.75f)
+        if (transform.position.x < -30.0f)
         {
             Destroy(this.gameObject);
         }
@@ -91,10 +91,10 @@ public class Bullet : MonoBehaviour
 
     private void BulletMoveDown()
     {
-        Vector3 bulletVelocity = Vector3.down * _spd;
+        Vector3 bulletVelocity = Vector3.right * _spd;
         transform.Translate(bulletVelocity * Time.deltaTime);
 
-        if (transform.position.y < -5.0f)
+        if (transform.position.y < -30.0f)
         {
             Destroy(this.gameObject);
         }
@@ -105,7 +105,7 @@ public class Bullet : MonoBehaviour
         Vector3 bulletVelocity = new Vector3(-1, 1, 0.0f).normalized * _spd;
         transform.Translate(bulletVelocity * Time.deltaTime);
 
-        if(transform.position.x < -10.75f || transform.position.y > 7.0f)
+        if(transform.position.x < -30.0f || transform.position.y > 15f)
         {
             Destroy(this.gameObject);
         }

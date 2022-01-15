@@ -95,8 +95,8 @@ public class Player : MonoBehaviour, IDamagable
         _velocity = direction * _spd + _velocityChange;      //Create velocity
         transform.Translate(_velocity * Time.deltaTime);     //Move player
         
-        float xClamp = Mathf.Clamp(transform.position.x, -8.75f, 8.75f);    //Resrict x and y movement
-        float yClamp = Mathf.Clamp(transform.position.y, -3.5f, 5.5f);
+        float xClamp = Mathf.Clamp(transform.position.x, -24.0f, 26.0f);    //Resrict x and y movement
+        float yClamp = Mathf.Clamp(transform.position.y, -17.0f, 12.0f);
         transform.position = new Vector3(xClamp, yClamp, 0.0f);             //Ensure position does not exceed restrictions
     }
 
