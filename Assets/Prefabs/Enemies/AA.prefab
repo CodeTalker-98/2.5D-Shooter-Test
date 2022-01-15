@@ -356,6 +356,8 @@ MonoBehaviour:
     type: 3}
   _canSpawnPrefab: 0
   _fireRate: 2
+  _deathPrefab: {fileID: 549362863381756969, guid: cc13fb66878b30344819fb7dd9f8fe6a,
+    type: 3}
   _bulletPrefab: {fileID: 2946290035828185136, guid: 781097efe39338b4f9f360931ab7b852,
     type: 3}
   _firingPosition: {fileID: 4625472136223803073}

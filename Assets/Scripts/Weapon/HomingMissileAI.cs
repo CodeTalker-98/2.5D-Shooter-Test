@@ -8,7 +8,6 @@ public class HomingMissileAI : Bullet
     [SerializeField] private float _fuseDelay = 5.0f;
     [SerializeField] private float _rotateSpd = 1.0f;
     private Transform _target;
-    private Rigidbody _rb;
     private WaitForSeconds _acquisitionDelay;
 
     private void Start()
@@ -47,7 +46,7 @@ public class HomingMissileAI : Bullet
             if (hit != null)
             {
                 hit.TakeDamage(_damageValue);
-                //animate
+                Instantiate(_impact, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
         }
@@ -58,7 +57,7 @@ public class HomingMissileAI : Bullet
             if (hit != null)
             {
                 hit.TakeDamage(_damageValue);
-                //play anim
+                Instantiate(_impact, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
         }
@@ -84,8 +83,8 @@ public class HomingMissileAI : Bullet
         {
             transform.position += (_target.transform.position - transform.position).normalized * _spd * Time.deltaTime;
             transform.LookAt(_target.transform);
+            Debug.Break();
             yield return null;
         }
-        Destroy(this.gameObject);
     }
 }

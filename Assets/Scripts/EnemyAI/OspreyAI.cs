@@ -47,15 +47,10 @@ public class OspreyAI : Enemy, IDamagable
                 _spd *= 2.0f;
             }
         }
-        else
-        {
-            return;
-        }
 
         Health = base._health;
         _maxHealth = Health;
 
-        Debug.Log("Health: " + Health);
     }
 
    private void Start()
@@ -64,9 +59,9 @@ public class OspreyAI : Enemy, IDamagable
         _fireRate = 1.0f;
         _cycleTime = new WaitForSeconds(_fireRate);
         _waitTime = new WaitForSeconds(_wait);
-        //StartCoroutine(EnemyShoot());
+        StartCoroutine(EnemyShoot());
     }
-/*
+
     public override void EnemyMovement()
     {
         float y = _amplitude * Mathf.Sin(Time.time * _frequency);
@@ -93,49 +88,48 @@ public class OspreyAI : Enemy, IDamagable
             transform.position = Vector3.MoveTowards(transform.position, _target.position, _spd * Time.deltaTime);
         }
     }
-*/
+
     public void TakeDamage(int damage)
     {
         if (_isDead)
         {
             return;
         }
-        Debug.Log("Health: " + Health);
         Health -= damage;
         Debug.Log("Health: " + Health);
-        Debug.Break();
 
         if (Health <= _maxHealth * 0.5f && !_lowHealth)
         {
             _lowHealth = true;
-            _fireRate = 5.0f;
+            _fireRate = 1.0f;
             _cycleTime = new WaitForSeconds(_fireRate);
             //StartCoroutine(LaunchHomingMissile());
+            //StartCoroutine(EnemyShoot());
         }
 
         if (Health < 1)
         {
             _isDead = true;
 
+            Instantiate(_deathPrefab, transform.position, Quaternion.identity);
+
             if (_player != null)
             {
                 _player.UpdateScore(_scoreValue);
             }
 
-            //play anim
-
             Destroy(this.gameObject);
         }
     }
-   /*
+   
 
     IEnumerator EnemyShoot()
     {
-        while (!_isDead && (Health > _maxHealth * 0.5f))
+        while (!_isDead /*&& (Health > _maxHealth * 0.5f)*/)
         {
             if (_bulletPrefab != null)
             {
-                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
+                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 Bullet[] bullets = enemyBullets.GetComponentsInChildren<Bullet>();
 
                 for (int i = 0; i < bullets.Length; i++)
@@ -154,7 +148,7 @@ public class OspreyAI : Enemy, IDamagable
         {
             if (_homingMissilePrefab != null)
             {
-                GameObject enemyHomingMissiles = Instantiate(_homingMissilePrefab, _firingPosition.position, Quaternion.Euler(0.0f, -90.0f, 0.0f));
+                GameObject enemyHomingMissiles = Instantiate(_homingMissilePrefab, _firingPosition.position, Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 HomingMissileAI[] missiles = enemyHomingMissiles.GetComponents<HomingMissileAI>();
 
                 for (int i = 0; i < missiles.Length; i++)
@@ -216,5 +210,5 @@ public class OspreyAI : Enemy, IDamagable
         _goingHome = true;
         _target.position = _startingPosition.position;
     }
-   */
+   
 }

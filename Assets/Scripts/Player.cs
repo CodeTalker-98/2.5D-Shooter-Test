@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IDamagable
     [SerializeField] private bool _isDead;
     private int _collisionDamage = 1;                               //For collsions
     private int _maxHealth = 5;
+    [SerializeField] private GameObject _deathPrefab;
     public int Health { get; set; }
     
     private void Init()
@@ -188,7 +189,9 @@ public class Player : MonoBehaviour, IDamagable
         if (Health < 1)
         {
             _isDead = true;
-            //play anim
+
+            Instantiate(_deathPrefab, transform.position, Quaternion.identity);
+
             _uiManager.PlayerDeath();                                                                       //Updates the Health bar on the HUD
             Destroy(this.gameObject);
         }

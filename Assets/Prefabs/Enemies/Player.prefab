@@ -321,6 +321,8 @@ MonoBehaviour:
   _firingPosition: {fileID: 6841034288910602411}
   _bullet: {fileID: 6429282155070751236, guid: 199b6b8421952dd418a97e05678b62b4, type: 3}
   _isDead: 0
+  _deathPrefab: {fileID: 549362863381756969, guid: cc13fb66878b30344819fb7dd9f8fe6a,
+    type: 3}
 --- !u!1 &6841034289090843516
 GameObject:
   m_ObjectHideFlags: 0

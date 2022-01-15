@@ -41,10 +41,6 @@ public class AC130AI : Enemy, IDamagable
                 _spd *= 2.0f;
             }
         }
-        else
-        {
-            return;
-        }
 
         Health = base._health;
         _maxHealth = Health;
@@ -117,7 +113,7 @@ public class AC130AI : Enemy, IDamagable
         {
             _isDead = true;
 
-            // play anim
+            Instantiate(_deathPrefab, transform.position, Quaternion.identity);
 
             if(_player != null)
             {

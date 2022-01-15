@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] protected float _spd = 15.0f;                // Speed of the Bullet
     [SerializeField] protected int _damageValue = 1;
+    [SerializeField] protected GameObject _impact;
     protected bool _isEnemyBullet = false;
     private bool _isBomberBullet = false;
     private bool _isAaBullet = false;
@@ -136,6 +137,7 @@ public class Bullet : MonoBehaviour
             if (hit != null)
             {
                 hit.TakeDamage(_damageValue);
+                Instantiate(_impact, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
         } else if (other.tag == "Enemy" && !_isEnemyBullet && !_isAaBullet && !_isBomberBullet)
@@ -145,6 +147,7 @@ public class Bullet : MonoBehaviour
             if (hit != null)
             {
                 hit.TakeDamage(_damageValue);
+                Instantiate(_impact, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
         }       

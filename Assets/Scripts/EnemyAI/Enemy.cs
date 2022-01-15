@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected GameObject _powerupPrefab;         //Powerup to spawn
     [SerializeField] protected bool _canSpawnPrefab = false;      //Check if we can spawn prefab;
     [SerializeField] protected float _fireRate = 1.0f;
+    [SerializeField] protected GameObject _deathPrefab;
     protected Player _player;
     protected bool _isDead = false;
 
@@ -39,10 +40,6 @@ public abstract class Enemy : MonoBehaviour
                 _fireRate *= 0.75f;
                 _spd *= 2.0f;
             }
-        }
-        else
-        {
-            return;
         }
     }
 

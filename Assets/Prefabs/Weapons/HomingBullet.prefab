@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spd: 15
   _damageValue: 1
+  _impact: {fileID: 3957004788067121336, guid: 8af41661d406b014e82909b8c8eeaf88, type: 3}
   _delay: 0.5
   _fuseDelay: 5
   _rotateSpd: 1

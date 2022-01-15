@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spd: 35
   _damageValue: 1
+  _impact: {fileID: 3957004788067121336, guid: 8af41661d406b014e82909b8c8eeaf88, type: 3}
 --- !u!1001 &2946290034801545586
 PrefabInstance:
   m_ObjectHideFlags: 0

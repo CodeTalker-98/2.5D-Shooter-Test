@@ -29,7 +29,8 @@ public class Kamikaze : Enemy, IDamagable
             }
 
             _isDead = true;
-            //play anim
+
+            Instantiate(_deathPrefab, transform.position, Quaternion.identity);
 
             if (_canSpawnPrefab)
             {

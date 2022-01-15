@@ -276,3 +276,5 @@ MonoBehaviour:
     type: 3}
   _canSpawnPrefab: 0
   _fireRate: 1
+  _deathPrefab: {fileID: 549362863381756969, guid: cc13fb66878b30344819fb7dd9f8fe6a,
+    type: 3}

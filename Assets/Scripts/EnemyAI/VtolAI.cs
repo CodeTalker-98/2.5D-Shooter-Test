@@ -58,7 +58,7 @@ public class VtolAI : Enemy, IDamagable
                 _player.UpdateScore(_scoreValue);
             }
 
-            // play anim
+            Instantiate(_deathPrefab, transform.position, Quaternion.identity);
 
             if (_canSpawnPrefab)
             {
