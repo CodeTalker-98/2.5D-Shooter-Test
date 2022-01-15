@@ -31,10 +31,13 @@ public class VtolAI : Enemy, IDamagable
         Vector3 vtolVelocity = new Vector3(0.0f, y, _spd);
         transform.Translate(vtolVelocity * Time.deltaTime);
 
-        if (transform.position.x < -12.5f)
+        if (transform.position.x < -37.0f)
         {
             Destroy(this.gameObject);
         }
+
+
+        Debug.Log("Health: " + Health);
     }
 
     public void TakeDamage(int damage)
@@ -72,7 +75,7 @@ public class VtolAI : Enemy, IDamagable
         {
             if (_bulletPrefab != null)
             {
-                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
+                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 Bullet[] bullets = enemyBullets.GetComponents<Bullet>();
                 
                 for (int i = 0; i < bullets.Length; i++)

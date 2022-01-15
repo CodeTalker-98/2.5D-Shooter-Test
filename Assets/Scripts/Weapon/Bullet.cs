@@ -31,10 +31,10 @@ public class Bullet : MonoBehaviour
                         _damageValue = 2;
                         break;
                     case 3:
-                        _damageValue = 2;
+                        _damageValue = 3;
                         break;
                     case 4:
-                        _damageValue = 3;
+                        _damageValue = 4;
                         break;
                     case 5:
                         _damageValue = 1;
@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour
         Vector3 bulletVelocity = Vector3.right * _spd;          //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
 
-        if (transform.position.x > 30.0f)
+        if (transform.position.x > 37.0f)
         {
             Destroy(this.gameObject);
         }
@@ -80,10 +80,10 @@ public class Bullet : MonoBehaviour
 
     private void BulletMoveLeft()
     {
-        Vector3 bulletVelocity = Vector3.left * _spd;           //Set Bullet Direction
+        Vector3 bulletVelocity = Vector3.right * _spd;           //Set Bullet Direction
         transform.Translate(bulletVelocity * Time.deltaTime);   // Move Bullet
 
-        if (transform.position.x < -30.0f)
+        if (transform.position.x < -37.0f)
         {
             Destroy(this.gameObject);
         }
@@ -102,7 +102,7 @@ public class Bullet : MonoBehaviour
 
     private void BulletMoveDiagonalLeft()
     {
-        Vector3 bulletVelocity = new Vector3(-1, 1, 0.0f).normalized * _spd;
+        Vector3 bulletVelocity = new Vector3(1.0f, 0.0f, 0.0f).normalized * _spd;
         transform.Translate(bulletVelocity * Time.deltaTime);
 
         if(transform.position.x < -30.0f || transform.position.y > 15f)
@@ -124,6 +124,7 @@ public class Bullet : MonoBehaviour
     public void IsBomberBullet()
     {
         _isBomberBullet = true;
+        _damageValue = 2;
     }
 
     private void OnTriggerEnter(Collider other)

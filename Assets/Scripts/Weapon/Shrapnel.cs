@@ -13,7 +13,7 @@ public class Shrapnel : Bullet
     {
         transform.position += -transform.up * Time.deltaTime * _spd; 
 
-        if (transform.position.x < -30.0f || transform.position.x > 30.0f || transform.position.y < -30.0f || transform.position.y > 20.0f)
+        if (transform.position.x < -37.0f || transform.position.x > 37.0f || transform.position.y < -30.0f || transform.position.y > 30.0f)
         {
             Destroy(this.gameObject);
         }

@@ -16,13 +16,15 @@ public class Player : MonoBehaviour, IDamagable
     private bool _isPaused = false;
     [SerializeField] private bool _isDead;
     private int _collisionDamage = 1;                               //For collsions
+    private int _maxHealth = 5;
     public int Health { get; set; }
     
     private void Init()
     {
         _uiManager = GameObject.Find("UI").GetComponentInChildren<UIManager>();
-        
+
         Health = 5;
+
         if (_uiManager != null)
         {
             _uiManager.UpdateHealthBar(Health);
@@ -132,6 +134,10 @@ public class Player : MonoBehaviour, IDamagable
     {
         return Health;
     }
+    public int PlayerMaxHealth()
+    {
+        return _maxHealth;
+    }
 
     public int SendPlayerScore()
     {
@@ -142,12 +148,11 @@ public class Player : MonoBehaviour, IDamagable
     {
         if (other.tag == "Powerup")                                     //If we collide with powerup
         {
-            if(Health < 5)
+            if(Health < _maxHealth)
             {
                 Health++;                                       // Add 1 to health if current health is less than 5
             }
             _uiManager.UpdateHealthBar(Health);                 //Update healthbar with current health
-            Debug.Log("Current Health: " + Health);             //Display message to show it works
             Destroy(other.gameObject);                                  //Destroy the powerup
         }
 
@@ -177,6 +182,7 @@ public class Player : MonoBehaviour, IDamagable
         }
 
         Health -= damage;
+
         _uiManager.UpdateHealthBar(Health);
 
         if (Health < 1)

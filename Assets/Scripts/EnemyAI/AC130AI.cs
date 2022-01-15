@@ -147,7 +147,7 @@ public class AC130AI : Enemy, IDamagable
     {
         if (_bulletPrefab != null)
         {
-            GameObject bullets = Instantiate(bulletPrefab, _firingPosition.position, Quaternion.identity);
+            GameObject bullets = Instantiate(bulletPrefab, _firingPosition.position, Quaternion.Euler(0.0f, 180.0f, 0.0f));
             Bullet[] bulletInstances = bullets.GetComponentsInChildren<Bullet>();
             
             for (int i = 0; i < bulletInstances.Length; i++)

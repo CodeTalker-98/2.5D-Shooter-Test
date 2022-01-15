@@ -6,22 +6,18 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     private Player _player;                             //Player variable
-    private Slider _healthBar;                          //Slider Varible
-    private Color _healthRenderer;
+    [SerializeField] private Image _healthBar;                          //Slider Varible
     [SerializeField] private Image _currentWeaponImage;                  //Current Displayed Image
     [SerializeField] private Image[] _weaponImage;      //Make an array to show current weapon
     [SerializeField] private Text _scoreText;           //Score text to display score
     [SerializeField] private GameObject _pausedPanel;
     [SerializeField] private GameObject _gameOverPanel;
     [SerializeField] private GameObject _levelCompletePanel;
-    private int _playerMaxHealth = 5;                   // Sets Max player Health
+    private float _playerMaxHealth;
 
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();         //Find's Player
-        _healthBar = GetComponentInChildren<Slider>();                      //Find's healthbar
-        _healthRenderer = _healthBar.targetGraphic.color;
-        _healthBar.maxValue = _playerMaxHealth;                             //Healthbar Max is equal to Max Health
 
         if (GameManager.Instance == null)
         {
@@ -44,10 +40,14 @@ public class UIManager : MonoBehaviour
 
 
 
-    public void UpdateHealthBar(int value)
+    public void UpdateHealthBar(float value)
     {
-        _healthBar.value = value;
-        _healthRenderer = Color.Lerp(Color.red, Color.green, value);
+        if (_player == null)
+        {
+            Player p = GameObject.Find("Player").GetComponent<Player>();
+            _playerMaxHealth = p.PlayerMaxHealth();
+        }
+        _healthBar.fillAmount = value / _playerMaxHealth;
     }
 
     public void NextLevel()

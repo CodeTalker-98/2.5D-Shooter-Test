@@ -61,7 +61,7 @@ public abstract class Enemy : MonoBehaviour
         Vector3 enemyVelocity = Vector3.forward * _spd;                //Sets direction for enemy to move
         transform.Translate(enemyVelocity * Time.deltaTime);        //moves enemy
 
-        if (transform.position.x < -12.5f)                          //Removes enemy if offscreen
+        if (transform.position.x < -45.0f)                          //Removes enemy if offscreen
         {
             Destroy(this.gameObject);
         }

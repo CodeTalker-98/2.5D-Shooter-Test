@@ -58,7 +58,7 @@ public class AAGunAI : Enemy, IDamagable
         {
             if (_bulletPrefab != null)
             {
-                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.identity);
+                GameObject enemyBullets = Instantiate(_bulletPrefab, _firingPosition.position, Quaternion.Euler(0.0f, 0.0f, 135.0f));
                 Bullet[] bullets = enemyBullets.GetComponents<Bullet>();
 
                 for (int i = 0; i < bullets.Length; i++)

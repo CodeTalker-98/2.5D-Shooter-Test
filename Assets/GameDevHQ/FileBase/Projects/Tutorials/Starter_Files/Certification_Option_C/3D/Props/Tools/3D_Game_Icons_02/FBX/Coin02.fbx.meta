@@ -9,7 +9,6 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Circle.007
-    4300002: Circle_007
   externalObjects:
   - first:
       type: UnityEngine:Material
