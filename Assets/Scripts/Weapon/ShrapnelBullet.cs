@@ -25,7 +25,7 @@ public class ShrapnelBullet : Bullet
 
     private void BulletMovement()
     {
-        Vector3 bulletVelocity = Vector3.left * _spd;
+        Vector3 bulletVelocity = Vector3.right * _spd;
         transform.Translate(bulletVelocity * Time.deltaTime);
 
         if (transform.position.x < -10.75f)

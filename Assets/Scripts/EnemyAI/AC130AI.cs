@@ -69,16 +69,16 @@ public class AC130AI : Enemy, IDamagable
                 transform.Translate(idleSecond * Time.deltaTime);
                 break;
             case AttackState.ThirdState:
-                Vector3 bulletVelocity = Vector3.left * _spd;
+                Vector3 bulletVelocity = Vector3.forward * _spd;
                 transform.Translate(bulletVelocity * Time.deltaTime);
                 break;
             default:
                 break;
         }
 
-        if (transform.position.x < -15.0f)
+        if (transform.position.x < -45.0f)
         {
-            transform.position = new Vector3(10.75f, Random.Range(-3.0f, 5.0f), 0.0f);
+            transform.position = new Vector3(45.0f, Random.Range(-17.0f, 12.0f), 0.0f);
         }
     }
 

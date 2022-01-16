@@ -13,6 +13,7 @@ public class OspreyAI : Enemy, IDamagable
     [SerializeField] private Transform _topFiringPosition;
     [SerializeField] private Transform _bottomFiringPosition;
     [SerializeField] private Transform _target;
+    [SerializeField] private GameObject _positionHolder;
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
     private int _maxHealth;
@@ -28,7 +29,12 @@ public class OspreyAI : Enemy, IDamagable
     private WaitForSeconds _waitTime;
 
     public int Health { get; set; }
-   
+
+    private void Awake()
+    {
+        _positionHolder.SetActive(true);
+    }
+
     public override void Init()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -117,6 +123,8 @@ public class OspreyAI : Enemy, IDamagable
             {
                 _player.UpdateScore(_scoreValue);
             }
+
+            _positionHolder.SetActive(false);
 
             Destroy(this.gameObject);
         }
