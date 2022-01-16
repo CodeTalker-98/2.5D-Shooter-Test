@@ -124,13 +124,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b989bd7a5ebe594cb5aa4a277b432c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spd: 20
+  _spd: 10
   _damageValue: 1
   _impact: {fileID: 3957004788067121336, guid: 8af41661d406b014e82909b8c8eeaf88, type: 3}
   _shrapnelPrefab: {fileID: 2407216002905064673, guid: 364ec802181e3e842a7810ca42d6a269,
     type: 3}
   _numberOfBullets: 8
-  _lifespan: 3
+  _lifespan: 2
   _radius: 3
 --- !u!1001 &5070075972077748605
 PrefabInstance:

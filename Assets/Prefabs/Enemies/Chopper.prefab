@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3602209535705722964}
   - component: {fileID: 6548415716343905076}
   - component: {fileID: 6548415716343905099}
+  - component: {fileID: 511209325}
   m_Layer: 0
   m_Name: Chopper
   m_TagString: Enemy
@@ -124,6 +125,25 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 946022905746617722, guid: eb9be8739de360c41ac06c7dc183b7fb,
     type: 3}
   _firingPosition: {fileID: 6548415717343621682}
+--- !u!95 &511209325
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008765673876849800}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b37a823b75826224a8c6fb9c035abe0b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3378889849354988166
 GameObject:
   m_ObjectHideFlags: 0

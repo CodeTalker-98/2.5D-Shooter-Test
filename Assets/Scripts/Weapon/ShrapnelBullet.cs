@@ -28,7 +28,7 @@ public class ShrapnelBullet : Bullet
         Vector3 bulletVelocity = Vector3.right * _spd;
         transform.Translate(bulletVelocity * Time.deltaTime);
 
-        if (transform.position.x < -10.75f)
+        if (transform.position.x < -45.0f)
         {
             Destroy(this.gameObject);
         }
