@@ -9,11 +9,18 @@ public class VtolAI : Enemy, IDamagable
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
     private WaitForSeconds _cycleTime;
+    private Animator _anim;
+    private string _currentState;
+
+    const string IDLE = "VTOL Idle";
+    const string UP = "VTOL Up";
+    const string DOWN = "VTOL Down";
 
     public int Health { get; set; }
 
     public override void Init()
     {
+        _anim = GetComponent<Animator>();
         base.Init();
         Health = base._health;
     }
@@ -28,7 +35,7 @@ public class VtolAI : Enemy, IDamagable
     public override void EnemyMovement()
     {
         float y = _amplitude * Mathf.Sin(Time.time * _frequency);
-        Vector3 vtolVelocity = new Vector3(0.0f, y, _spd);
+        Vector3 vtolVelocity = new Vector3(0.0f , y, _spd);
         transform.Translate(vtolVelocity * Time.deltaTime);
 
         if (transform.position.x < -37.0f)
@@ -36,7 +43,16 @@ public class VtolAI : Enemy, IDamagable
             Destroy(this.gameObject);
         }
 
+        if (y > 0)
+        {
+            ChangeAnimation(UP);
+        }
+        else if (y < 0)
+        {
+            ChangeAnimation(DOWN);
+        }
 
+        Debug.Log("Y Value: " + y);
         Debug.Log("Health: " + Health);
     }
 
@@ -85,5 +101,17 @@ public class VtolAI : Enemy, IDamagable
             }
             yield return _cycleTime;
         }
+    }
+
+    private void ChangeAnimation(string newState)
+    {
+        if(_currentState == newState)
+        {
+            return;
+        }
+
+        _anim.Play(newState);
+
+        _currentState = newState;
     }
 }
