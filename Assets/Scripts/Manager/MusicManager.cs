@@ -20,6 +20,9 @@ public class MusicManager : MonoBehaviour
 
     private AudioSource _audio;
 
+    [Header("Music")]
+    [SerializeField] private AudioClip _bgMusic;
+
     [Header("Options Menu")]
     [SerializeField] private Toggle _musicToggle;
 
@@ -40,6 +43,13 @@ public class MusicManager : MonoBehaviour
     private void Start()
     {
         _audio = GetComponent<AudioSource>();
+        PlayMusic(_bgMusic);
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        _audio.clip = clip;
+        _audio.Play();
     }
 
     public void UpdateMusic()

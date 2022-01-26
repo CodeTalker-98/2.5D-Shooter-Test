@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4741460174101967709}
   - component: {fileID: 3085027261309996838}
   - component: {fileID: 3085027261309996825}
+  - component: {fileID: 624908749}
   m_Layer: 0
   m_Name: AC-130
   m_TagString: Enemy
@@ -151,7 +152,28 @@ MonoBehaviour:
     type: 3}
   _shrapnelBulletPrefab: {fileID: 9136522178786453668, guid: 4ac7b0961f35f7c41a14bd41e0f8d7ee,
     type: 3}
+  _damagePrefab: {fileID: 3841844721696731415, guid: ed23c5c870596564a9367a8e6d27b48e,
+    type: 3}
   _firingPosition: {fileID: 3085027259856222626}
   _amplitude: 7
   _frequency: 1
   _attackState: 0
+--- !u!95 &624908749
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6481202013824632705}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5046e78a315d4e24086ffd1f8d1eb5b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

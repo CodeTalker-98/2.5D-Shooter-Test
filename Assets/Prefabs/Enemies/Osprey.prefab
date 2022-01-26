@@ -92,13 +92,14 @@ GameObject:
   - component: {fileID: 8553362858565317110}
   - component: {fileID: 8553362857991926665}
   - component: {fileID: 8553362857991926664}
+  - component: {fileID: 1274496762}
   m_Layer: 0
   m_Name: Osprey
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8553362858567217942
 Transform:
   m_ObjectHideFlags: 0
@@ -209,14 +210,35 @@ MonoBehaviour:
   _bottomFiringPosition: {fileID: 0}
   _target: {fileID: 0}
   _positionHolder: {fileID: 0}
+  _damagePrefab: {fileID: 3841844721696731415, guid: ed23c5c870596564a9367a8e6d27b48e,
+    type: 3}
   _amplitude: -5
   _frequency: 1.5
   _atTop: 0
-  _atBottom: 0
+  _atBottom: 1
   _atMiddle: 0
   _lowHealth: 0
   _healthMonitor: 0
   _goingHome: 0
+--- !u!95 &1274496762
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553362858567315254}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5eebb2dbef49dc24c924b6622917a360, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8553362858800317785
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,8 +18,6 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    private AudioSource _audio;
-
     [Header("Menu SFX")]
     [SerializeField] private AudioClip _menuConfirm;
     [SerializeField] private AudioClip _menuBack;
@@ -31,7 +29,17 @@ public class SFXManager : MonoBehaviour
 
     [Header("Game SFX")]
     [SerializeField] private AudioClip _playerShoot;
+    [SerializeField] private AudioClip _enemyShoot;
+    [SerializeField] private AudioClip _explosion;
 
+    [Header("Enemies")]
+    [SerializeField] private AudioClip _chopper;
+    [SerializeField] private AudioClip _boat;
+    [SerializeField] private AudioClip jet;
+    [SerializeField] private AudioClip _stuka;
+    [SerializeField] private AudioClip _warthog;
+
+    private AudioSource _audio;
     private AudioSource _musicAudio;
 
     private void Awake()
@@ -52,8 +60,11 @@ public class SFXManager : MonoBehaviour
     {
         _audio = GetComponent<AudioSource>();
         _musicAudio = MusicManager.Instance.GetComponent<AudioSource>();
-        _soundSlider.value = 0.5f;
-        UpdateVolume();
+        if (_soundSlider != null)
+        {
+            _soundSlider.value = 0.5f;
+            UpdateVolume();
+        }
     }
 
     public void UpdateSFX()

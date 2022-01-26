@@ -36,6 +36,8 @@ public class UIManager : MonoBehaviour
             int imageIndex = _player.SendPlayerHealth() - 1;
             _currentWeaponImage.sprite = _weaponImage[imageIndex].sprite;
         }
+
+
     }
 
 
@@ -72,15 +74,15 @@ public class UIManager : MonoBehaviour
         _gameOverPanel.SetActive(false);
     }
 
-    public void PausedGame()
+    public void PausedGame(bool isPaused)
     {
-        _pausedPanel.SetActive(true);
+        _pausedPanel.SetActive(isPaused);
     }
 
     public void Resume()
     {
         GameManager.Instance.Resume();
-        _pausedPanel.SetActive(false);
+        PausedGame(false);
     }
 
     public void Quit()

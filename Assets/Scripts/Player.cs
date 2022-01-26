@@ -18,11 +18,20 @@ public class Player : MonoBehaviour, IDamagable
     private int _collisionDamage = 1;                               //For collsions
     private int _maxHealth = 5;
     [SerializeField] private GameObject _deathPrefab;
+    private string _currentState;
+    private Animator _anim;
+
+    private const string FORWARD = "Player Forward";
+    private const string BACKWARD = "Player Backward";
+    private const string UP = "Player Up";
+    private const string DOWN = "Player Down";
+    private const string IDLE = "Player Idle";
     public int Health { get; set; }
     
     private void Init()
     {
         _uiManager = GameObject.Find("UI").GetComponentInChildren<UIManager>();
+        _anim = GetComponent<Animator>();
 
         Health = 5;
 
@@ -69,12 +78,13 @@ public class Player : MonoBehaviour, IDamagable
 
         if (Input.GetKeyDown(KeyCode.Escape) && !_isPaused)
         {
-            _uiManager.PausedGame();
+            _uiManager.PausedGame(true);
             GameManager.Instance.Pause();
             _isPaused = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && _isPaused)
         {
+            _uiManager.PausedGame(false);
             GameManager.Instance.Resume();
             _isPaused = false;
         }
@@ -90,17 +100,42 @@ public class Player : MonoBehaviour, IDamagable
 
     void PlayerMovement()
     {
-        float hInput = Input.GetAxisRaw("Horizontal");          //Get input and use it to set direction
-        float vInput = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(hInput, vInput, 0.0f).normalized;
-        _velocityChange = new Vector3(Mathf.Abs(hInput), 0.0f, 0.0f) * 1.25f;
+        if (!_isPaused)
+        {
+            float hInput = Input.GetAxisRaw("Horizontal");          //Get input and use it to set direction
+            float vInput = Input.GetAxisRaw("Vertical");
+            Vector3 direction = new Vector3(hInput, vInput, 0.0f).normalized;
+            _velocityChange = new Vector3(Mathf.Abs(hInput), 0.0f, 0.0f) * 1.25f;
 
-        _velocity = direction * _spd + _velocityChange;      //Create velocity
-        transform.Translate(_velocity * Time.deltaTime);     //Move player
-        
-        float xClamp = Mathf.Clamp(transform.position.x, -24.0f, 26.0f);    //Resrict x and y movement
-        float yClamp = Mathf.Clamp(transform.position.y, -17.0f, 12.0f);
-        transform.position = new Vector3(xClamp, yClamp, 0.0f);             //Ensure position does not exceed restrictions
+            _velocity = direction * _spd + _velocityChange;      //Create velocity
+
+            if (hInput == 0 && vInput == 0)
+            {
+                ChangeAnimation(IDLE);
+            }
+            else if (hInput > 0)
+            {
+                ChangeAnimation(FORWARD);
+            }
+            else if (hInput < 0)
+            {
+                ChangeAnimation(BACKWARD);
+            }
+            else if (vInput > 0)
+            {
+                ChangeAnimation(UP);
+            }
+            else if (vInput < 0)
+            {
+                ChangeAnimation(DOWN);
+            }
+
+            transform.position += _velocity * Time.deltaTime;
+
+            float xClamp = Mathf.Clamp(transform.position.x, -24.0f, 26.0f);    //Resrict x and y movement
+            float yClamp = Mathf.Clamp(transform.position.y, -17.0f, 12.0f);
+            transform.position = new Vector3(xClamp, yClamp, 0.0f);             //Ensure position does not exceed restrictions
+        }
     }
 
     void PlayerShoot()
@@ -173,6 +208,18 @@ public class Player : MonoBehaviour, IDamagable
                 hit.TakeDamage(_collisionDamage);
             }
         }
+    }
+
+    private void ChangeAnimation(string newState)
+    {
+        if (_currentState == newState)
+        {
+            return;
+        }
+
+        _anim.Play(newState);
+
+        _currentState = newState;
     }
 
     public void TakeDamage(int damage)

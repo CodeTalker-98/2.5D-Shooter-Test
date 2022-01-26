@@ -12,7 +12,6 @@ public class VtolAI : Enemy, IDamagable
     private Animator _anim;
     private string _currentState;
 
-    const string IDLE = "VTOL Idle";
     const string UP = "VTOL Up";
     const string DOWN = "VTOL Down";
 
@@ -35,8 +34,8 @@ public class VtolAI : Enemy, IDamagable
     public override void EnemyMovement()
     {
         float y = _amplitude * Mathf.Sin(Time.time * _frequency);
-        Vector3 vtolVelocity = new Vector3(0.0f , y, _spd);
-        transform.Translate(vtolVelocity * Time.deltaTime);
+        Vector3 vtolVelocity = new Vector3(-_spd , y, 0.0f);
+        transform.position += vtolVelocity * Time.deltaTime;
 
         if (transform.position.x < -37.0f)
         {
@@ -51,9 +50,6 @@ public class VtolAI : Enemy, IDamagable
         {
             ChangeAnimation(DOWN);
         }
-
-        Debug.Log("Y Value: " + y);
-        Debug.Log("Health: " + Health);
     }
 
     public void TakeDamage(int damage)

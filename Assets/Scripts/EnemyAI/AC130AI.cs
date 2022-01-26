@@ -6,6 +6,7 @@ public class AC130AI : Enemy, IDamagable
 {
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _shrapnelBulletPrefab;
+    [SerializeField] private GameObject _damagePrefab;
     [SerializeField] private Transform _firingPosition;
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
@@ -18,15 +19,22 @@ public class AC130AI : Enemy, IDamagable
 
     [SerializeField] private AttackState _attackState;
     private WaitForSeconds _cycleTime;
+    private Animator _anim;
+    private string _currentState;
     private int _maxHealth;
     private bool _firstState = true;
     private bool _secondState = false;
     private bool _thirdState = false;
+
+    private const string UP = "AC130 Up";
+    private const string DOWN = "AC130 Down";
+    
     public int Health { get; set; }
 
     public override void Init()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _anim = GetComponent<Animator>();
 
         if(_player == null)
         {
@@ -61,12 +69,32 @@ public class AC130AI : Enemy, IDamagable
             case AttackState.FirstState:
                 float y = _amplitude * Mathf.Sin(Time.time * _frequency);
                 Vector3 idle = new Vector3(0.0f, y, 0.0f);
-                transform.Translate(idle * Time.deltaTime);
+                transform.position += idle * Time.deltaTime;
+                
+                if (y > 0)
+                {
+                    ChangeAnimation(UP);
+                }
+                else if (y < 0)
+                {
+                    ChangeAnimation(DOWN);
+                }
+
                 break;
             case AttackState.SecondState:
                 float ySecond = _amplitude * Mathf.Sin(Time.time * _frequency);
                 Vector3 idleSecond = new Vector3(0.0f, ySecond, 0.0f);
-                transform.Translate(idleSecond * Time.deltaTime);
+                transform.position += idleSecond * Time.deltaTime;
+
+                if (ySecond > 0)
+                {
+                    ChangeAnimation(UP);
+                }
+                else if (ySecond < 0)
+                {
+                    ChangeAnimation(DOWN);
+                }
+
                 break;
             case AttackState.ThirdState:
                 Vector3 bulletVelocity = Vector3.forward * _spd;
@@ -96,7 +124,8 @@ public class AC130AI : Enemy, IDamagable
             _firstState = false;
             _secondState = true;
             _amplitude = 10.0f;
-            _frequency = 5.0f;
+            GameObject fire = Instantiate(_damagePrefab, new Vector3(transform.position.x + 5.75f, transform.position.y, transform.position.z), Quaternion.identity);
+            fire.transform.parent = this.transform;
             _attackState = AttackState.SecondState;
             _cycleTime = new WaitForSeconds(_fireRate * 1.5f);
         }
@@ -104,7 +133,9 @@ public class AC130AI : Enemy, IDamagable
         {
             _secondState = false;
             _thirdState = true;
-            _spd = 10.0f;
+            _spd = 30.0f;
+            GameObject fire = Instantiate(_damagePrefab, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.identity);
+            fire.transform.parent = this.transform;
             _attackState = AttackState.ThirdState;
             _cycleTime = new WaitForSeconds(_fireRate / 1.5f);
         }
@@ -122,6 +153,18 @@ public class AC130AI : Enemy, IDamagable
 
             Destroy(this.gameObject);
         }
+    }
+
+    private void ChangeAnimation(string newState)
+    {
+        if (_currentState == newState)
+        {
+            return;
+        }
+
+        _anim.Play(newState);
+
+        _currentState = newState;
     }
 
     IEnumerator EnemyShoot()

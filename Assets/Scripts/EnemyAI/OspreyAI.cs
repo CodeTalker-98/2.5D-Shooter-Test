@@ -14,6 +14,7 @@ public class OspreyAI : Enemy, IDamagable
     [SerializeField] private Transform _bottomFiringPosition;
     [SerializeField] private Transform _target;
     [SerializeField] private GameObject _positionHolder;
+    [SerializeField] private GameObject _damagePrefab;
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
     private int _maxHealth;
@@ -27,6 +28,11 @@ public class OspreyAI : Enemy, IDamagable
     [SerializeField] private bool _goingHome = false;
     private WaitForSeconds _cycleTime;
     private WaitForSeconds _waitTime;
+    private string _currentState;
+    private Animator _anim;
+
+    private const string UP = "Osprey Up";
+    private const string DOWN = "Osprey Down";
 
     public int Health { get; set; }
 
@@ -39,6 +45,7 @@ public class OspreyAI : Enemy, IDamagable
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _target = GameObject.Find("Target").GetComponent<Transform>();
+        _anim = GetComponent<Animator>();
 
         if (_player == null)
         {
@@ -75,7 +82,17 @@ public class OspreyAI : Enemy, IDamagable
 
         if (Health > _maxHealth * .5f)
         {
-            transform.Translate(idleVelocity * Time.deltaTime);
+            //transform.Translate(idleVelocity * Time.deltaTime);
+            transform.position += idleVelocity * Time.deltaTime;
+
+            if (y > 0)
+            {
+                ChangeAnimation(UP);
+            }
+            else if (y < 0)
+            {
+                ChangeAnimation(DOWN);
+            }
         }
         else
         {
@@ -107,7 +124,8 @@ public class OspreyAI : Enemy, IDamagable
         if (Health <= _maxHealth * 0.5f && !_lowHealth)
         {
             _lowHealth = true;
-            _fireRate = 1.0f;
+            GameObject fire = Instantiate(_damagePrefab, new Vector3(transform.position.x + 5.75f, transform.position.y, transform.position.z), Quaternion.identity);
+            fire.transform.parent = this.transform;
             _cycleTime = new WaitForSeconds(_fireRate);
             //StartCoroutine(LaunchHomingMissile());
             //StartCoroutine(EnemyShoot());
@@ -129,7 +147,18 @@ public class OspreyAI : Enemy, IDamagable
             Destroy(this.gameObject);
         }
     }
-   
+
+    private void ChangeAnimation(string newState)
+    {
+        if (_currentState == newState)
+        {
+            return;
+        }
+
+        _anim.Play(newState);
+
+        _currentState = newState;
+    }
 
     IEnumerator EnemyShoot()
     {

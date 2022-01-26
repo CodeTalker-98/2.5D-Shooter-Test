@@ -23,9 +23,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private Toggle _hardModeToggle;
     [SerializeField] private Slider _brightnessSlider;
+    private Light _directionalLight;
 
     private int _highScore;
     private int _sceneIndex;
+    private float _brightness;
     private bool _hardMode;
 
     private Scene _scene;
@@ -46,12 +48,21 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _brightnessSlider.value = 0.5f;
+        _directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
+        if (_brightnessSlider != null)
+        {
+            _brightnessSlider.value = 0.5f;
+        }
     }
     private void Update()
     {
         _scene = SceneManager.GetActiveScene();
         _sceneIndex = _scene.buildIndex;
+
+        if (_directionalLight == null)
+        {
+            _directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
+        }
     }
 
     public void StartGame()
@@ -87,6 +98,12 @@ public class GameManager : MonoBehaviour
         {
             QuitGame();
         }
+    }
+
+    public void UpdateBrightness()
+    {
+        _brightnessSlider.value = _brightness;
+        _directionalLight.intensity = _brightness;
     }
 
     public void HardMode()
