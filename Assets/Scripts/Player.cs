@@ -20,6 +20,9 @@ public class Player : MonoBehaviour, IDamagable
     [SerializeField] private GameObject _deathPrefab;
     private string _currentState;
     private Animator _anim;
+    [SerializeField] protected AudioClip _firingSoundReg;
+    [SerializeField] protected AudioClip _firingSoundMinigun;
+    protected AudioSource _audio;
 
     private const string FORWARD = "Player Forward";
     private const string BACKWARD = "Player Backward";
@@ -32,8 +35,11 @@ public class Player : MonoBehaviour, IDamagable
     {
         _uiManager = GameObject.Find("UI").GetComponentInChildren<UIManager>();
         _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
 
         Health = 5;
+        Debug.Log("Called Start");
+
 
         if (_uiManager != null)
         {
@@ -55,26 +61,36 @@ public class Player : MonoBehaviour, IDamagable
         {
             case 0:
                 _fireRate = 1.0f;
+                
+                _audio.clip = _firingSoundReg;
                 break;
             case 1:
                 _fireRate = 1.0f;
+                _audio.clip = _firingSoundReg;
                 break;
             case 2:
                 _fireRate = 1.0f;
+                _audio.clip = _firingSoundReg;
                 break;
             case 3:
                 _fireRate = 0.5f;
+                _audio.clip = _firingSoundReg;
                 break;
             case 4:
                 _fireRate = 0.5f;
+                _audio.clip = _firingSoundReg;
                 break;
             case 5:
                 _fireRate = 0.125f;
+                _audio.clip = _firingSoundMinigun;
                 break;
             default:
                 _fireRate = 1.0f;
+                _audio.clip = _firingSoundReg;
                 break;
         }
+
+        Debug.Log("Health: " + Health);
 
         if (Input.GetKeyDown(KeyCode.Escape) && !_isPaused)
         {
@@ -85,7 +101,7 @@ public class Player : MonoBehaviour, IDamagable
         else if (Input.GetKeyDown(KeyCode.Escape) && _isPaused)
         {
             _uiManager.PausedGame(false);
-            GameManager.Instance.Resume();
+            _uiManager.Resume();
             _isPaused = false;
         }
 
@@ -140,9 +156,6 @@ public class Player : MonoBehaviour, IDamagable
 
     void PlayerShoot()
     {
-
-        //Update fire rate based on health
-
         if (Input.GetKey(KeyCode.Space))                    //Check for space bar
         {
             if (Time.time > _cycleTime)                         //if game time is greater than weapon cycle time
@@ -152,6 +165,15 @@ public class Player : MonoBehaviour, IDamagable
                 if (_bullet != null)                            //Fire bullet if it exists
                 {
                     Instantiate(_bullet, _firingPosition.position, Quaternion.identity);
+                    
+                    if (SFXManager.Instance.IsMuted())
+                    {
+                        _audio.clip = null;
+                    }
+                    else
+                    {
+                        _audio.Play();
+                    }
                 }
                 else
                 {
@@ -178,6 +200,11 @@ public class Player : MonoBehaviour, IDamagable
     public int SendPlayerScore()
     {
         return _score;
+    }
+
+    public void PauseState()
+    {
+        _isPaused = !_isPaused;
     }
 
     private void OnTriggerEnter(Collider other)                         //Use to check for trigger collisions
@@ -232,7 +259,7 @@ public class Player : MonoBehaviour, IDamagable
         Health -= damage;
 
         _uiManager.UpdateHealthBar(Health);
-
+        Debug.Log("Updated Health Bar");
         if (Health < 1)
         {
             _isDead = true;

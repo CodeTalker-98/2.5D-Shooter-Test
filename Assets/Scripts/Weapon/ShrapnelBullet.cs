@@ -15,6 +15,7 @@ public class ShrapnelBullet : Bullet
     {
         _detonationTimer = new WaitForSeconds(_lifespan);
         _damageValue = _numberOfBullets;
+        IsShrapnel();
         StartCoroutine(Detonate());
     }
 
@@ -53,7 +54,6 @@ public class ShrapnelBullet : Bullet
         if (hit != null)
         {
             hit.TakeDamage(_damageValue);
-            //Play anim
             Destroy(this.gameObject);
         }
     }

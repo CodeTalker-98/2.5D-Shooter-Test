@@ -13,12 +13,16 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected bool _canSpawnPrefab = false;      //Check if we can spawn prefab;
     [SerializeField] protected float _fireRate = 1.0f;
     [SerializeField] protected GameObject _deathPrefab;
+    [SerializeField] protected AudioClip _movementSound;
+    protected AudioSource _audio;
     protected Player _player;
     protected bool _isDead = false;
 
     public virtual void Init()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _audio = GetComponent<AudioSource>();
+        _audio.clip = _movementSound;
 
         if (_player == null)
         {
@@ -40,6 +44,15 @@ public abstract class Enemy : MonoBehaviour
                 _fireRate *= 0.75f;
                 _spd *= 2.0f;
             }
+        }
+
+        if (SFXManager.Instance.IsMuted())
+        {
+            _audio.clip = null;
+        }
+        else
+        {
+            _audio.Play();
         }
     }
 

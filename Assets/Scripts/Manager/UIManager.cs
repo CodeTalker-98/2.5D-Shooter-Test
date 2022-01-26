@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     {
         _player = GameObject.Find("Player").GetComponent<Player>();         //Find's Player
 
+
         if (GameManager.Instance == null)
         {
             Debug.LogError("UI MANAGER cannot find GAME MANAGER");
@@ -36,18 +37,17 @@ public class UIManager : MonoBehaviour
             int imageIndex = _player.SendPlayerHealth() - 1;
             _currentWeaponImage.sprite = _weaponImage[imageIndex].sprite;
         }
-
-
     }
-
-
 
     public void UpdateHealthBar(float value)
     {
         if (_player == null)
         {
-            Player p = GameObject.Find("Player").GetComponent<Player>();
-            _playerMaxHealth = p.PlayerMaxHealth();
+            _player = GameObject.Find("Player").GetComponent<Player>();
+        }
+        else
+        {
+            _playerMaxHealth = _player.PlayerMaxHealth();
         }
         _healthBar.fillAmount = value / _playerMaxHealth;
     }
@@ -82,6 +82,7 @@ public class UIManager : MonoBehaviour
     public void Resume()
     {
         GameManager.Instance.Resume();
+        _player.PauseState();
         PausedGame(false);
     }
 

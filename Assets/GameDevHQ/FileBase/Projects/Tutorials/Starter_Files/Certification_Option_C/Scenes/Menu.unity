@@ -539,14 +539,16 @@ MonoBehaviour:
   _menuHover: {fileID: 8300000, guid: b96daf23e2860564fa90e66214c0ee28, type: 3}
   _sfxToggle: {fileID: 1924894359678173384}
   _soundSlider: {fileID: 1924894359840961743}
-  _playerShoot: {fileID: 0}
-  _enemyShoot: {fileID: 0}
-  _explosion: {fileID: 0}
-  _chopper: {fileID: 0}
-  _boat: {fileID: 0}
-  jet: {fileID: 0}
-  _stuka: {fileID: 0}
-  _warthog: {fileID: 0}
+  _playerShoot: {fileID: 8300000, guid: 73e6ffb171a503549bebb706d375b686, type: 3}
+  _playerMinigun: {fileID: 8300000, guid: 035d6a4ff2a20a048ada24d28f1a64de, type: 3}
+  _enemyShoot: {fileID: 8300000, guid: bd86048068cfd9f40bbf70d7b580b176, type: 3}
+  _explosion: {fileID: 8300000, guid: 99575d43086034f4696df1038b8f0e66, type: 3}
+  _chopper: {fileID: 8300000, guid: 10b53191cc2d4eb48b9ef9c6e8668805, type: 3}
+  _boat: {fileID: 8300000, guid: 8dd85b1c28c24e540a88f8367faf2873, type: 3}
+  jet: {fileID: 8300000, guid: 201fdac8d7fb7c1418a0ebcc6a6f8c58, type: 3}
+  _stuka: {fileID: 8300000, guid: a096cca892a8cb1428375b6c2c408415, type: 3}
+  _warthog: {fileID: 8300000, guid: 6215ef0f957b4b2499a5b6f950fcce93, type: 3}
+  _warthogShoot: {fileID: 8300000, guid: a59b11b28f440334eab84b7f5fb80795, type: 3}
 --- !u!4 &1648270655
 Transform:
   m_ObjectHideFlags: 0

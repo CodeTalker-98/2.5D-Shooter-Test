@@ -29,6 +29,7 @@ public class SFXManager : MonoBehaviour
 
     [Header("Game SFX")]
     [SerializeField] private AudioClip _playerShoot;
+    [SerializeField] private AudioClip _playerMinigun;
     [SerializeField] private AudioClip _enemyShoot;
     [SerializeField] private AudioClip _explosion;
 
@@ -38,6 +39,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private AudioClip jet;
     [SerializeField] private AudioClip _stuka;
     [SerializeField] private AudioClip _warthog;
+    [SerializeField] private AudioClip _warthogShoot;
 
     private AudioSource _audio;
     private AudioSource _musicAudio;
@@ -105,5 +107,10 @@ public class SFXManager : MonoBehaviour
     {
         _audio.clip = _menuBack;
         _audio.Play();
+    }
+
+    public bool IsMuted()
+    {
+        return _audio.mute;
     }
 }

@@ -15,7 +15,7 @@ public class Powerup : MonoBehaviour
     {
         Vector3 direction = Vector3.left;                       //Direction to move
         Vector3 velocity = direction * _spd;                    //Direction * speed
-        transform.Translate(velocity * Time.deltaTime);         //Implement moving
+        transform.position += velocity * Time.deltaTime;       //Implement moving
     }
 }
 

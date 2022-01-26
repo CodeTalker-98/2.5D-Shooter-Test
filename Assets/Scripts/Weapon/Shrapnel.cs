@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Shrapnel : Bullet
 {
+    private void Start()
+    {
+        IsShrapnel();
+    }
+
     private void Update()
     {
         BulletMovement();
@@ -34,7 +39,6 @@ public class Shrapnel : Bullet
         if (hit != null) 
         {
             hit.TakeDamage(_damageValue);
-            //play anim
             Destroy(this.gameObject);
         }
     }

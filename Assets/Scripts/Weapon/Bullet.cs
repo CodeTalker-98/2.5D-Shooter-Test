@@ -7,14 +7,17 @@ public class Bullet : MonoBehaviour
     [SerializeField] protected float _spd = 15.0f;                // Speed of the Bullet
     [SerializeField] protected int _damageValue = 1;
     [SerializeField] protected GameObject _impact;
+    [SerializeField] protected AudioClip _firingSound;
+    protected AudioSource _audio;
     protected bool _isEnemyBullet = false;
     private bool _isBomberBullet = false;
     private bool _isAaBullet = false;
+    private bool _isShrapnel = false;
     private Player _player;
 
     private void Start()
     {
-        if (!_isEnemyBullet && !_isAaBullet && !_isBomberBullet)
+        if (!_isEnemyBullet && !_isAaBullet && !_isBomberBullet && !_isShrapnel)
         {
             _player = GameObject.Find("Player").GetComponent<Player>();
 
@@ -38,7 +41,7 @@ public class Bullet : MonoBehaviour
                         _damageValue = 4;
                         break;
                     case 5:
-                        _damageValue = 1;
+                        _damageValue = 2;
                         break;
                     default:
                         _damageValue = 1;
@@ -115,6 +118,11 @@ public class Bullet : MonoBehaviour
     public void IsEnemyBullet()
     {
         _isEnemyBullet = true;
+    }
+
+    public void IsShrapnel()
+    {
+        _isShrapnel = true;
     }
 
     public void IsAABullet()

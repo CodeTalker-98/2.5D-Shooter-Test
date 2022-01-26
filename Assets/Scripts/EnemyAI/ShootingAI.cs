@@ -44,7 +44,7 @@ public class ShootingAI : Enemy, IDamagable
 
             if (_canSpawnPrefab)
             {
-                Instantiate(_powerupPrefab, transform.position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
+                Instantiate(_powerupPrefab, transform.position, Quaternion.Euler(0.0f, 0.0f, 0.0f));
             }
 
             Destroy(this.gameObject);
