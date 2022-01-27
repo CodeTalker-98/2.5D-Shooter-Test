@@ -25,9 +25,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider _brightnessSlider;
     private Light _directionalLight;
 
-    private int _highScore;
+    private int _highScore = 0;
+    private int _previousScore = 0;
     private int _sceneIndex;
-    private float _brightness;
+    private int _waveNumber = 1;
+    private float _brightness = 1.0f;
     private bool _hardMode;
 
     private Scene _scene;
@@ -49,10 +51,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
+        
         if (_brightnessSlider != null)
         {
-            _brightnessSlider.value = 0.5f;
+            _brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 1.0f);//_brightnessSlider.maxValue * 0.5f;
+            UpdateBrightness();
         }
+
+        _highScore = PlayerPrefs.GetInt("Highscore", 0);
+        _brightness = PlayerPrefs.GetFloat("Brightness", 1.0f);
     }
     private void Update()
     {
@@ -62,12 +69,18 @@ public class GameManager : MonoBehaviour
         if (_directionalLight == null)
         {
             _directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
+            UpdateBrightness();
         }
     }
 
     public void StartGame()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void DisplayHighScore()
+    {
+
     }
 
     public void RetryLevel()
@@ -96,14 +109,50 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            QuitGame();
+            SceneManager.LoadScene(0);
+            Destroy(GameObject.Find("SFXManager").gameObject);
+            Destroy(GameObject.Find("MusicManager").gameObject);
+            Destroy(this.gameObject);
         }
     }
 
     public void UpdateBrightness()
     {
-        _brightnessSlider.value = _brightness;
+        if(_brightnessSlider != null)
+        {
+            _brightness = _brightnessSlider.value;
+        }
+
+        PlayerPrefs.SetFloat("Brightness", _brightness);
         _directionalLight.intensity = _brightness;
+    }
+
+    public void HighScore(int score)
+    {
+        _previousScore = score;
+
+        if (_previousScore > _highScore)
+        {
+            _highScore = _previousScore;
+
+            PlayerPrefs.SetInt("Highscore", _highScore);
+
+            UIManager ui = GameObject.Find("UI").GetComponentInChildren<UIManager>();
+
+            if (ui != null)
+            {
+                ui.DisplayHighScore(_highScore);
+            }
+            else
+            {
+                Debug.LogError("THE UI IS NULL");
+            }
+        }
+    }
+
+    public float SetBrightness()
+    {
+        return _brightness;
     }
 
     public void HardMode()

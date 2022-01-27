@@ -10,9 +10,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _currentWeaponImage;                  //Current Displayed Image
     [SerializeField] private Image[] _weaponImage;      //Make an array to show current weapon
     [SerializeField] private Text _scoreText;           //Score text to display score
+    [SerializeField] private Text _highScoreText;
     [SerializeField] private GameObject _pausedPanel;
     [SerializeField] private GameObject _gameOverPanel;
     [SerializeField] private GameObject _levelCompletePanel;
+    [SerializeField] private GameObject _highScoreHolder;
     private float _playerMaxHealth;
 
     private void Start()
@@ -72,6 +74,12 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.RetryLevel();
         _gameOverPanel.SetActive(false);
+    }
+
+    public void DisplayHighScore(int highscore)
+    {
+        _highScoreHolder.SetActive(true);
+        _highScoreText.text = highscore.ToString().PadLeft(6, '0');
     }
 
     public void PausedGame(bool isPaused)

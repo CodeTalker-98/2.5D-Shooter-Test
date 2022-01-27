@@ -10,6 +10,7 @@ public class AC130AI : Enemy, IDamagable
     [SerializeField] private Transform _firingPosition;
     [SerializeField] private float _amplitude = 1.0f;
     [SerializeField] private float _frequency = 1.0f;
+    [SerializeField] private AudioClip _firingSound;
     private enum AttackState
     {
         FirstState,
@@ -35,6 +36,8 @@ public class AC130AI : Enemy, IDamagable
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
+        _audio.clip = _firingSound;
 
         if(_player == null)
         {
@@ -134,6 +137,18 @@ public class AC130AI : Enemy, IDamagable
             _secondState = false;
             _thirdState = true;
             _spd = 30.0f;
+
+            if (SFXManager.Instance.IsMuted())
+            {
+                _audio.clip = null;
+            }
+            else
+            {
+                _audio.clip = _movementSound;
+                _audio.loop = true;
+                _audio.Play();
+            }
+
             GameObject fire = Instantiate(_damagePrefab, new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z), Quaternion.identity);
             fire.transform.parent = this.transform;
             _attackState = AttackState.ThirdState;
@@ -188,6 +203,15 @@ public class AC130AI : Enemy, IDamagable
         {
             GameObject bullets = Instantiate(bulletPrefab, _firingPosition.position, Quaternion.Euler(0.0f, 180.0f, 0.0f));
             Bullet[] bulletInstances = bullets.GetComponentsInChildren<Bullet>();
+
+            if (SFXManager.Instance.IsMuted())
+            {
+                _audio.clip = null;
+            }
+            else
+            {
+                _audio.Play();
+            }
             
             for (int i = 0; i < bulletInstances.Length; i++)
             {

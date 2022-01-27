@@ -109,6 +109,7 @@ public class Player : MonoBehaviour, IDamagable
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _uiManager.NextLevel();
+            GameManager.Instance.HighScore(_score);
         }
         //////////////////////TESTING FIX FOR END OF LEVEL/////////////////////////
 
@@ -207,6 +208,11 @@ public class Player : MonoBehaviour, IDamagable
         _isPaused = !_isPaused;
     }
 
+    public bool IsDead()
+    {
+        return _isDead;
+    }
+
     private void OnTriggerEnter(Collider other)                         //Use to check for trigger collisions
     {
         if (other.tag == "Powerup")                                     //If we collide with powerup
@@ -216,7 +222,7 @@ public class Player : MonoBehaviour, IDamagable
                 Health++;                                       // Add 1 to health if current health is less than 5
             }
             _uiManager.UpdateHealthBar(Health);                 //Update healthbar with current health
-            Destroy(other.gameObject);                                  //Destroy the powerup
+            Destroy(other.gameObject, 1.5f);                                  //Destroy the powerup
         }
 
         if(other.tag == "Enemy")
@@ -267,6 +273,7 @@ public class Player : MonoBehaviour, IDamagable
             Instantiate(_deathPrefab, transform.position, Quaternion.identity);
 
             _uiManager.PlayerDeath();                                                                       //Updates the Health bar on the HUD
+            GameManager.Instance.HighScore(_score);
             Destroy(this.gameObject);
         }
     }

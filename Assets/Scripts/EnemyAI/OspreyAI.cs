@@ -31,6 +31,7 @@ public class OspreyAI : Enemy, IDamagable
     private string _currentState;
     private Animator _anim;
 
+
     private const string UP = "Osprey Up";
     private const string DOWN = "Osprey Down";
 
@@ -46,6 +47,8 @@ public class OspreyAI : Enemy, IDamagable
         _player = GameObject.Find("Player").GetComponent<Player>();
         _target = GameObject.Find("Target").GetComponent<Transform>();
         _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
+        _audio.clip = _movementSound;
 
         if (_player == null)
         {
@@ -59,6 +62,15 @@ public class OspreyAI : Enemy, IDamagable
                 _fireRate *= 0.75f;
                 _spd *= 2.0f;
             }
+        }
+
+        if (SFXManager.Instance.IsMuted())
+        {
+            _audio.clip = null;
+        }
+        else
+        {
+            _audio.Play();
         }
 
         Health = base._health;

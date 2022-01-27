@@ -128,7 +128,7 @@ MonoBehaviour:
   _spd: 15
   _damageValue: 1
   _impact: {fileID: 3957004788067121336, guid: 2b4e6b909b656b6429dc033c04b69b29, type: 3}
-  _firingSound: {fileID: 0}
+  _firingSound: {fileID: 8300000, guid: bd86048068cfd9f40bbf70d7b580b176, type: 3}
 --- !u!82 &4598273514312237544
 AudioSource:
   m_ObjectHideFlags: 0
@@ -141,13 +141,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
+  m_Volume: 0
+  m_Pitch: 0.3
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 201
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

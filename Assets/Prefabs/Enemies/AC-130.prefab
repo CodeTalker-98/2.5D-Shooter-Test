@@ -149,8 +149,7 @@ MonoBehaviour:
   _fireRate: 1
   _deathPrefab: {fileID: 549362863381756969, guid: a58c1be5dbd8a8b448f7dc64f6cdf770,
     type: 3}
-  _movementSound: {fileID: 0}
-  _firingSound: {fileID: 0}
+  _movementSound: {fileID: 8300000, guid: 6215ef0f957b4b2499a5b6f950fcce93, type: 3}
   _bulletPrefab: {fileID: 284846674308694734, guid: a204322dc518a594c8fa8c825ea90b8e,
     type: 3}
   _shrapnelBulletPrefab: {fileID: 9136522178786453668, guid: 4ac7b0961f35f7c41a14bd41e0f8d7ee,
@@ -160,6 +159,7 @@ MonoBehaviour:
   _firingPosition: {fileID: 3085027259856222626}
   _amplitude: 7
   _frequency: 1
+  _firingSound: {fileID: 8300000, guid: a59b11b28f440334eab84b7f5fb80795, type: 3}
   _attackState: 0
 --- !u!95 &624908749
 Animator:
@@ -192,7 +192,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.375
   m_Pitch: 1
   Loop: 0
   Mute: 0

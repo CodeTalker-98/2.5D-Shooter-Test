@@ -17,6 +17,9 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
+        _audio = GetComponent<AudioSource>();
+        _audio.clip = _firingSound;
+
         if (!_isEnemyBullet && !_isAaBullet && !_isBomberBullet && !_isShrapnel)
         {
             _player = GameObject.Find("Player").GetComponent<Player>();
@@ -48,6 +51,15 @@ public class Bullet : MonoBehaviour
                         break;
                 }
             }
+        }
+
+        if (SFXManager.Instance.IsMuted())
+        {
+            _audio.clip = null;
+        }
+        else
+        {
+            _audio.Play();
         }
     }
 

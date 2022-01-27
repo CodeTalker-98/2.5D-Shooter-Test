@@ -199,8 +199,7 @@ MonoBehaviour:
   _fireRate: 1
   _deathPrefab: {fileID: 549362863381756969, guid: a58c1be5dbd8a8b448f7dc64f6cdf770,
     type: 3}
-  _movementSound: {fileID: 0}
-  _firingSound: {fileID: 0}
+  _movementSound: {fileID: 8300000, guid: 201fdac8d7fb7c1418a0ebcc6a6f8c58, type: 3}
   _wait: 1.5
   _bulletPrefab: {fileID: 284846674308694734, guid: a204322dc518a594c8fa8c825ea90b8e,
     type: 3}
@@ -254,13 +253,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
+  m_Volume: 0.216
+  m_Pitch: 0.8
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 152
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
