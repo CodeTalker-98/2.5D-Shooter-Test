@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Toggle _hardModeToggle;
     [SerializeField] private Slider _brightnessSlider;
     private Light _directionalLight;
+    private PlayableDirector _playableDirector;
 
     private int _highScore = 0;
     private int _previousScore = 0;
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
     private int _waveNumber = 1;
     private float _brightness = 1.0f;
     private bool _hardMode;
+    private bool _checkpoint = false;
 
     private Scene _scene;
 
@@ -78,14 +81,19 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void DisplayHighScore()
-    {
-
-    }
-
     public void RetryLevel()
     {
-        SceneManager.LoadScene(_sceneIndex);
+        if (!ReachedCheckpoint())
+        {
+            SceneManager.LoadScene(_sceneIndex);
+        }
+        else
+        {
+            WaveUIScript wave = GameObject.Find("WaveText").GetComponent<WaveUIScript>();
+            wave.LoadWave();
+            _playableDirector = GameObject.Find("Timeline").GetComponent<PlayableDirector>();
+            //_playableDirector.initialTime;
+        }
     }
 
     public void Pause()
@@ -109,6 +117,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            _checkpoint = false;
+            PlayerPrefs.DeleteKey("Wave");
             SceneManager.LoadScene(0);
             Destroy(GameObject.Find("SFXManager").gameObject);
             Destroy(GameObject.Find("MusicManager").gameObject);
@@ -176,8 +186,25 @@ public class GameManager : MonoBehaviour
         _optionsPanel.SetActive(false);
     }
 
+    public void SetWaveNumber(int waveNumber)
+    {
+        PlayerPrefs.SetInt("Wave", waveNumber);
+    }
+
+    public void GetWaveNumber()
+    {
+        _waveNumber = PlayerPrefs.GetInt("Wave", 1);
+        _checkpoint = true;
+    }
+
+    public bool ReachedCheckpoint()
+    {
+        return _checkpoint;
+    }
+
     public void QuitGame()
     {
+        PlayerPrefs.DeleteKey("Wave");
         Application.Quit();
     }
 }

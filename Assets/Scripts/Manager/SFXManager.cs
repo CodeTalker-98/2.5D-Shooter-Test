@@ -113,4 +113,9 @@ public class SFXManager : MonoBehaviour
     {
         return _audio.mute;
     }
+
+    public void PauseSound(bool isPaused)
+    {
+        _audio.mute = isPaused;
+    }
 }

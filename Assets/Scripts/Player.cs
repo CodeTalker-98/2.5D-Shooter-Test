@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, IDamagable
         _anim = GetComponent<Animator>();
         _audio = GetComponent<AudioSource>();
 
-        Health = 5;
+        Health = 1;
         Debug.Log("Called Start");
 
 
@@ -96,12 +96,14 @@ public class Player : MonoBehaviour, IDamagable
         {
             _uiManager.PausedGame(true);
             GameManager.Instance.Pause();
+            SFXManager.Instance.PauseSound(true);
             _isPaused = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && _isPaused)
         {
             _uiManager.PausedGame(false);
             _uiManager.Resume();
+            SFXManager.Instance.PauseSound(false);
             _isPaused = false;
         }
 

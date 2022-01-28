@@ -21,6 +21,19 @@ public class WaveUIScript : MonoBehaviour
     private void OnEnable()
     {
         _waveNumber++;
-        Debug.Log("Wave Number: " + _waveNumber);
+
+        if(_waveNumber == 9)
+        {
+            GameManager.Instance.SetWaveNumber(_waveNumber);
+        }
     }
+
+    public void LoadWave()
+    {
+        if (GameManager.Instance.ReachedCheckpoint())
+        {
+            _waveNumber = 9;
+        }
+    }
+
 }
